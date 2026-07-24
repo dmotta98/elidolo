@@ -4,7 +4,9 @@ Juego de carrera de un basquetbolista uruguayo. Empezás con 16 años en un cuad
 de la Liga de Ascenso y jugás una temporada por turno hasta que el cuerpo diga
 basta. Una partida entera son unos 5 minutos.
 
-**Jugar:** https://dmotta98.github.io/elidolo/
+**Jugar:** https://elidolo.pages.dev/
+
+(`dmotta98.github.io/elidolo` queda como entorno de test.)
 
 ## Cómo se juega
 
@@ -38,12 +40,21 @@ Las constantes que controlan el balance están todas arriba del `<script>`:
 | Precios del carrito | `SERVICIOS` y `MULT_COSTO` |
 | Curva de crecimiento por edad | `crecimientoBase()` |
 | Probabilidad de lesión | `riesgoLesion()` |
-| Eventos aleatorios | `EV` |
+| Eventos aleatorios | `EV` (50) |
+| Ranking dentro de la liga | `rankLiga()` |
 
 Cada jugador nace con un **techo** oculto entre 58 y 94. El crecimiento se
 escala por `1 - (atributo/techo)^2.2`, así que cuanto más cerca del techo estás,
 menos rinde cada hora de gimnasio. Por eso dos partidas con las mismas
 decisiones terminan distinto.
+
+### Ojo al tocar el estado del jugador
+
+Si agregás o sacás un campo del objeto que devuelve `nuevaPartida()`, **subí la
+versión de `KEY`** (`elmetro_v3` → `elmetro_v4`) y agregá el campo nuevo a
+`CAMPOS_REQ`. Si no, las partidas guardadas de la versión anterior se cargan
+incompletas y se corrompen sin avisar. `cargar()` valida y descarta cualquier
+partida que no tenga todos los campos.
 
 ## Correrlo local
 
@@ -54,6 +65,9 @@ No necesita servidor. Abrí `index.html` en el navegador y listo.
 Primera versión. Solo Liga de Ascenso, LUB y una liga genérica del exterior.
 La idea es que el juego sea sobre el deporte y la carrera, no sobre una liga en
 particular, así que más adelante se pueden sumar otras.
+
+Pendientes conocidos: comparar tu carrera contra la de otros jugadores de la
+liga temporada a temporada, y un modo con varias ligas.
 
 ## Aviso
 
