@@ -6,14 +6,18 @@
 <title>EL METRO — carrera de un basquetbolista uruguayo</title>
 <meta name="description" content="Empezás con 16 años en un cuadro del Metro. Decidí en qué gastás la plata, aguantá el cuerpo y llegá lo más lejos que puedas.">
 <meta name="theme-color" content="#0B0D0C">
- 
-<!-- Previsualización al compartir el link -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230B0D0C'/%3E%3Ccircle cx='16' cy='16' r='9.5' fill='%23FF8A1F'/%3E%3Cpath d='M16 6.5v19M6.5 16h19' stroke='%230B0D0C' stroke-width='1.7'/%3E%3Cpath d='M9.5 9.5c4 3 9 3 13 0M9.5 22.5c4-3 9-3 13 0' stroke='%230B0D0C' stroke-width='1.5' fill='none'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="og.png">
+
+<!-- Previsualización al compartir el link (WhatsApp, Telegram, X, Discord).
+     IMPORTANTE: las URL tienen que ser absolutas. Si cambiás de dominio,
+     cambiá estas cuatro líneas o el preview queda roto. -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="El Metro">
 <meta property="og:title" content="El Metro — carrera de un basquetbolista uruguayo">
 <meta property="og:description" content="Tenés 16 años y un cuadro del Ascenso. Contratá kinesiólogo, chef o preparador, bancá las lesiones y llegá lo más lejos que puedas. Una partida son 5 minutos.">
-<meta property="og:url" content="https://dmotta98.github.io/elidolo/">
-<meta property="og:image" content="https://dmotta98.github.io/elidolo/og.png">
+<meta property="og:url" content="https://elidolo.pages.dev/">
+<meta property="og:image" content="https://elidolo.pages.dev/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="El Metro: planilla de estadísticas de un basquetbolista uruguayo">
@@ -37,12 +41,12 @@
   --ok:#59D38C;
   --bad:#E8563C;
   --info:#6FA8D6;
- 
+
   --f-display:"Barlow Condensed", "Oswald", "Arial Narrow", sans-serif;
   --f-body:"Archivo", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --f-mono:"JetBrains Mono", "SF Mono", Consolas, monospace;
 }
- 
+
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%}
 body{
@@ -55,14 +59,14 @@ body{
   min-height:100vh;
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
- 
+
 button{font-family:inherit;color:inherit;cursor:pointer;border:0;background:none}
 button:focus-visible,input:focus-visible,select:focus-visible,label:focus-visible{
   outline:2px solid var(--led);outline-offset:2px
 }
- 
+
 .wrap{max-width:1180px;margin:0 auto}
- 
+
 /* ---------- cabecera ---------- */
 .top{
   display:flex;align-items:flex-end;justify-content:space-between;
@@ -80,7 +84,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,label:focus-visibl
 }
 .brand-sub{font-size:12.5px;color:var(--muted);margin-top:6px;max-width:44ch}
 .top-actions{display:flex;gap:8px}
- 
+
 /* ---------- botones ---------- */
 .btn{
   font-family:var(--f-display);font-weight:600;font-size:15px;
@@ -100,16 +104,16 @@ button:focus-visible,input:focus-visible,select:focus-visible,label:focus-visibl
 .btn--led:disabled{background:#3A3128;color:#7A6C5C;border-color:#3A3128;cursor:not-allowed}
 .btn--ok{border-color:var(--ok);color:var(--ok)}
 .btn--ok:hover{background:rgba(89,211,140,.12)}
- 
-/* ---------- LAYOUTS (Grilla vs Informe) ---------- */
-.grid{display:grid;grid-template-columns:1.32fr 1fr;gap:18px;align-items:start}
-@media(max-width:900px){.grid{grid-template-columns:1fr}}
 
-/* Este modificador centra el reporte y oculta la ficha temporalmente */
-.grid.informe-mode { display: flex; flex-direction: column; max-width: 680px; margin: 0 auto; }
-.grid.informe-mode #cardFicha { display: none; }
- 
-.card{background:var(--panel);border:1px solid var(--line);width:100%}
+/* ---------- grilla de cards ---------- */
+.grid{display:grid;grid-template-columns:1.32fr 1fr;gap:18px;align-items:start}
+@media(max-width:900px){
+  .grid{grid-template-columns:1fr}
+  /* en el celular primero va el panel de decisión: es donde se aprieta */
+  .card--panel{order:-1}
+}
+
+.card{background:var(--panel);border:1px solid var(--line)}
 .card-head{
   display:flex;align-items:center;justify-content:space-between;gap:12px;
   padding:10px 16px;border-bottom:1px solid var(--line);background:var(--panel2);
@@ -120,7 +124,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,label:focus-visibl
 }
 .card-note{font-family:var(--f-mono);font-size:10.5px;color:var(--led);letter-spacing:.1em}
 .card-body{padding:16px}
- 
+
 /* ---------- identidad del jugador ---------- */
 .ident{display:flex;gap:16px;align-items:center;padding-bottom:16px;border-bottom:1px solid var(--line)}
 .dorsal{
@@ -139,26 +143,31 @@ button:focus-visible,input:focus-visible,select:focus-visible,label:focus-visibl
 }
 .badge--lub{color:var(--led);border-color:var(--led)}
 .badge--ext{color:var(--info);border-color:var(--info)}
- 
+
 /* ---------- media / overall ---------- */
 .media-box{text-align:center;padding:6px 14px 4px;border-left:1px solid var(--line)}
 .media-num{font-family:var(--f-mono);font-weight:700;font-size:38px;line-height:1;color:var(--ink)}
 .media-lbl{font-family:var(--f-mono);font-size:9px;letter-spacing:.18em;color:var(--muted);margin-top:6px}
 .delta{font-family:var(--f-mono);font-size:12px;margin-top:4px}
 .up{color:var(--ok)} .down{color:var(--bad)} .flat{color:var(--muted)}
- 
+
 /* ---------- barras de atributos ---------- */
+.rank-line{
+  font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;color:var(--muted);
+  padding:11px 0 0;
+}
+.rank-line b{color:var(--parquet);font-weight:700;font-size:12.5px}
 .attrs{display:grid;grid-template-columns:1fr 1fr;gap:2px 22px;padding:14px 0;border-bottom:1px solid var(--line)}
 @media(max-width:520px){.attrs{grid-template-columns:1fr}}
 .attr{display:grid;grid-template-columns:1fr 30px 26px;align-items:center;gap:8px;padding:3px 0}
 .attr-name{font-size:12px;color:var(--muted)}
 .attr-val{font-family:var(--f-mono);font-size:12.5px;text-align:right}
-.attr-d{font-family:var(--f-mono);font-size:10px;text-align:right}
+.attr-d{font-family:var(--f-mono);font-size:9.5px;text-align:right;white-space:nowrap}
 .bar{grid-column:1/-1;height:3px;background:#20272B;margin-bottom:3px}
 .bar i{display:block;height:100%;background:var(--parquet)}
 .bar i.hi{background:var(--led)}
 .bar i.lo{background:#5D6A6F}
- 
+
 /* ---------- condicion ---------- */
 .cond{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}
 .cond-item{}
@@ -167,26 +176,26 @@ button:focus-visible,input:focus-visible,select:focus-visible,label:focus-visibl
 .cond-val{font-family:var(--f-mono);font-size:13px}
 .gauge{height:5px;background:#20272B}
 .gauge i{display:block;height:100%}
- 
+
 /* ---------- totales de carrera ---------- */
 .totals{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);margin:16px 0;border:1px solid var(--line)}
 .tot{background:var(--panel2);padding:10px 8px;text-align:center}
 .tot-n{font-family:var(--f-mono);font-weight:700;font-size:19px}
 .tot-l{font-family:var(--f-mono);font-size:8.5px;letter-spacing:.14em;color:var(--muted);margin-top:3px;text-transform:uppercase}
- 
+
 /* ---------- planilla de temporadas (elemento firma) ---------- */
+.sheet-head,.season-row{
+  display:grid;grid-template-columns:46px minmax(0,1fr) 26px 176px;gap:8px;
+}
 .sheet-head{
-  display:grid;grid-template-columns:44px 1fr 30px 46px 46px 46px 42px;
-  gap:6px;font-family:var(--f-mono);font-size:9px;letter-spacing:.13em;
-  color:var(--muted);text-transform:uppercase;padding:0 0 6px;border-bottom:1px solid var(--line2);
+  font-family:var(--f-mono);font-size:9px;letter-spacing:.13em;color:var(--muted);
+  text-transform:uppercase;padding:0 0 6px;border-bottom:1px solid var(--line2);
 }
-.sheet-head span:nth-child(n+3){text-align:right}
 .season{border-bottom:1px solid var(--line);padding:9px 0}
-.season-row{
-  display:grid;grid-template-columns:44px 1fr 30px 46px 46px 46px 42px;
-  gap:6px;align-items:baseline;font-family:var(--f-mono);font-size:12.5px;
-}
-.season-row span:nth-child(n+3){text-align:right}
+.season-row{align-items:baseline;font-family:var(--f-mono);font-size:12.5px}
+.s-ed{text-align:right;color:var(--muted)}
+.s-nums{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.s-nums > span{text-align:right;min-width:0}
 .s-year{color:var(--led);font-weight:700}
 .s-club{font-family:var(--f-body);font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .s-club em{font-style:normal;font-family:var(--f-mono);font-size:9.5px;color:var(--muted);letter-spacing:.1em}
@@ -197,8 +206,23 @@ button:focus-visible,input:focus-visible,select:focus-visible,label:focus-visibl
 .hito.malo{border-color:var(--bad)}
 .hito.oro{border-color:var(--led);color:var(--ink)}
 .hito.neutro{border-color:var(--info)}
+@media(max-width:640px){
+  .sheet-head{display:none}
+  .season-row{grid-template-columns:46px minmax(0,1fr) auto}
+  .s-nums{grid-column:1/-1;margin-top:7px;gap:4px}
+  .s-nums > span{text-align:left;font-size:12px}
+  .s-nums > span::before{
+    content:attr(data-l);display:block;font-family:var(--f-mono);font-size:8px;
+    letter-spacing:.12em;color:var(--muted);margin-bottom:1px;
+  }
+  .money--4{grid-template-columns:repeat(2,1fr);gap:12px}
+  .cond{gap:10px}
+  .dorsal{font-size:48px;min-width:62px}
+  .ident-name{font-size:26px}
+  .brand-title{font-size:38px}
+}
 .empty{color:var(--muted);font-size:13px;padding:22px 0;text-align:center;border-bottom:1px solid var(--line)}
- 
+
 /* ---------- panel derecho ---------- */
 .section{padding:14px 0;border-bottom:1px solid var(--line)}
 .section:first-child{padding-top:0}
@@ -212,7 +236,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,label:focus-visibl
 .money--4 .money-n{font-size:15px}
 .money-n{font-family:var(--f-mono);font-size:17px;font-weight:700}
 .money-l{font-family:var(--f-mono);font-size:8.5px;letter-spacing:.12em;color:var(--muted);margin-top:3px;text-transform:uppercase}
- 
+
 /* carrito */
 .svc{
   display:flex;gap:11px;align-items:flex-start;padding:9px 10px;width:100%;text-align:left;
@@ -234,7 +258,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,label:focus-visibl
 .svc-n{font-size:13.5px;font-weight:500}
 .svc-p{font-family:var(--f-mono);font-size:11.5px;color:var(--led);white-space:nowrap}
 .svc-d{font-size:11.5px;color:var(--muted);line-height:1.38;margin-top:2px}
- 
+
 /* foco */
 .focos{display:flex;flex-direction:column;gap:6px}
 .foco{
@@ -248,35 +272,29 @@ button:focus-visible,input:focus-visible,select:focus-visible,label:focus-visibl
 .foco.on .dot{background:var(--parquet);border-color:var(--parquet)}
 .foco-n{font-size:13.5px;font-weight:500}
 .foco-d{font-size:11.5px;color:var(--muted);line-height:1.38;margin-top:2px}
- 
-.warn{font-size:11.5px;color:var(--bad);margin-top:9px;line-height:1.4}
- 
-/* informe de temporada (ESTILOS NUEVOS DESTACADOS) */
-.report-line{
-  font-size:14.5px;line-height:1.5;
-  padding:14px 16px;
-  background:var(--panel2);
-  border-left:4px solid var(--line2);
-  border-bottom:1px solid var(--line);
-  margin-bottom:8px;
-  border-radius:0 4px 4px 0;
-}
-.report-line:last-of-type{border-bottom:0; margin-bottom:16px;}
-.report-line.bueno{border-left-color:var(--ok); background:rgba(89,211,140,.06);}
-.report-line.malo{border-left-color:var(--bad); background:rgba(232,86,60,.06);}
-.report-line.oro{border-left-color:var(--led); background:rgba(255,138,31,.08); font-weight:500;}
-.report-line.neutro{border-left-color:var(--info); background:rgba(111,168,214,.06);}
 
+.warn{font-size:11.5px;color:var(--bad);margin-top:9px;line-height:1.4}
+
+/* informe de temporada */
+.report-line{
+  font-size:13.5px;line-height:1.5;padding:9px 0 9px 12px;
+  border-left:2px solid var(--line2);border-bottom:1px solid var(--line);
+}
+.report-line:last-of-type{border-bottom:0}
+.report-line.bueno{border-left-color:var(--ok)}
+.report-line.malo{border-left-color:var(--bad)}
+.report-line.oro{border-left-color:var(--led)}
+.report-line.neutro{border-left-color:var(--info)}
 .statline{
-  font-family:var(--f-mono);font-size:14px;background:var(--panel2);
-  border:1px solid var(--line);padding:14px 16px;margin-bottom:18px;line-height:1.7;
+  font-family:var(--f-mono);font-size:13px;background:var(--panel2);
+  border:1px solid var(--line);padding:11px 12px;margin-bottom:14px;line-height:1.7;
 }
 .statline b{color:var(--led);font-weight:700}
-.decision{border:1px solid var(--led);padding:18px;margin-top:22px;background:rgba(255,138,31,.05)}
-.decision p{font-size:14.5px;line-height:1.5;margin-bottom:14px}
-.decision-btns{display:flex;gap:12px}
-.decision-btns .btn{flex:1;font-size:14px;padding:12px 10px}
- 
+.decision{border:1px solid var(--led);padding:13px;margin-top:14px;background:rgba(255,138,31,.05)}
+.decision p{font-size:13.5px;line-height:1.5;margin-bottom:11px}
+.decision-btns{display:flex;gap:8px}
+.decision-btns .btn{flex:1;font-size:13px;padding:9px 8px}
+
 /* ---------- setup ---------- */
 .setup{max-width:560px;margin:0 auto}
 .field{margin-bottom:15px}
@@ -289,18 +307,21 @@ button:focus-visible,input:focus-visible,select:focus-visible,label:focus-visibl
 .row2{display:grid;grid-template-columns:1fr 110px;gap:12px}
 .intro{font-size:13.5px;color:var(--muted);line-height:1.6;margin-bottom:22px}
 .intro b{color:var(--parquet);font-weight:500}
- 
+.pos-help{font-size:12.5px;color:var(--muted);line-height:1.45;margin:-6px 0 16px;
+  padding-left:11px;border-left:2px solid var(--parquet)}
+
 /* ---------- final ---------- */
 .legacy{text-align:center;padding:26px 16px}
 .legacy-rank{font-family:var(--f-display);font-weight:700;font-size:52px;line-height:1;color:var(--led);text-transform:uppercase}
 .legacy-txt{font-size:14px;color:var(--muted);max-width:52ch;margin:12px auto 0;line-height:1.6}
+.share-ok{color:var(--ok)!important;border-color:var(--ok)!important;background:rgba(89,211,140,.1)!important}
 .hidden{display:none!important}
 footer{margin-top:26px;font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;color:#49555A;text-align:center}
 </style>
 </head>
 <body>
 <div class="wrap">
- 
+
   <div class="top">
     <div>
       <div class="brand-eyebrow">Liga de Ascenso · Uruguay · 2026</div>
@@ -309,7 +330,7 @@ footer{margin-top:26px;font-family:var(--f-mono);font-size:10px;letter-spacing:.
     </div>
     <div class="top-actions" id="topActions"></div>
   </div>
- 
+
   <!-- ============ SETUP ============ -->
   <section id="setup" class="setup">
     <div class="card">
@@ -318,7 +339,7 @@ footer{margin-top:26px;font-family:var(--f-mono);font-size:10px;letter-spacing:.
         <p class="intro">Elegí dónde arrancás. Los catorce clubes son los que están jugando la Liga de Ascenso 2026 de verdad. <b>Dos ascienden a la LUB, tres se van a la DTA.</b> Tus atributos iniciales salen medio al azar: nadie elige con qué nace.</p>
         <div class="field">
           <label for="inNombre">Nombre del jugador</label>
-          <input id="inNombre" type="text" maxlength="26" placeholder="Jayson Granger" autocomplete="off">
+          <input id="inNombre" type="text" maxlength="26" placeholder="Diego Motta" autocomplete="off">
         </div>
         <div class="row2">
           <div class="field">
@@ -327,9 +348,10 @@ footer{margin-top:26px;font-family:var(--f-mono);font-size:10px;letter-spacing:.
           </div>
           <div class="field">
             <label for="inDorsal">Dorsal</label>
-            <input id="inDorsal" type="number" min="0" max="99" value="23">
+            <input id="inDorsal" type="number" min="0" max="99" value="7">
           </div>
         </div>
+        <p class="pos-help" id="posHelp"></p>
         <div class="field">
           <label for="inClub">Club donde te formás</label>
           <select id="inClub"></select>
@@ -338,18 +360,18 @@ footer{margin-top:26px;font-family:var(--f-mono);font-size:10px;letter-spacing:.
       </div>
     </div>
   </section>
- 
+
   <!-- ============ JUEGO ============ -->
   <section id="game" class="grid hidden">
-    <!-- CARD 1 (Ficha Izquierda) -->
-    <div class="card" id="cardFicha">
+    <!-- CARD 1 -->
+    <div class="card">
       <div class="card-head">
         <span class="card-title">Ficha del jugador</span>
         <span class="card-note" id="fichaTemp">Temporada 2026</span>
       </div>
       <div class="card-body">
         <div class="ident">
-          <div class="dorsal" id="uiDorsal">23<small>Dorsal</small></div>
+          <div class="dorsal" id="uiDorsal">7<small>Dorsal</small></div>
           <div class="ident-main">
             <div class="ident-name" id="uiNombre">—</div>
             <div class="ident-meta" id="uiMeta">—</div>
@@ -360,21 +382,23 @@ footer{margin-top:26px;font-family:var(--f-mono);font-size:10px;letter-spacing:.
             <div class="media-lbl">Media</div>
           </div>
         </div>
- 
+
+        <div class="rank-line" id="uiRank"></div>
         <div class="attrs" id="uiAttrs"></div>
         <div class="cond" id="uiCond"></div>
         <div class="totals" id="uiTotals"></div>
- 
+
         <div class="section-t" style="margin-bottom:8px">Planilla de carrera <span id="uiPjTot"></span></div>
         <div class="sheet-head">
-          <span>Temp</span><span>Club</span><span>Ed</span><span>PJ</span><span>PTS</span><span>REB</span><span>AST</span>
+          <span>Temp</span><span>Club</span><span>Ed</span>
+          <span class="s-nums"><span>PJ</span><span>PTS</span><span>REB</span><span>AST</span></span>
         </div>
         <div id="uiPlanilla"></div>
       </div>
     </div>
- 
-    <!-- CARD 2 (Panel Derecho / Informe Central) -->
-    <div class="card" id="cardPanel">
+
+    <!-- CARD 2 -->
+    <div class="card card--panel">
       <div class="card-head">
         <span class="card-title" id="panelTitle">Pretemporada</span>
         <span class="card-note" id="panelNote"></span>
@@ -382,42 +406,47 @@ footer{margin-top:26px;font-family:var(--f-mono);font-size:10px;letter-spacing:.
       <div class="card-body" id="panelBody"></div>
     </div>
   </section>
- 
+
   <footer>Datos de clubes: Liga de Ascenso 2026 (FUBB) · Juego de ficción, sin vínculo con los clubes</footer>
 </div>
- 
+
 <script>
 "use strict";
- 
+
 /* ============================================================
    DATOS
    ============================================================ */
 const CLUBES_ASCENSO = ["Olimpia","Urupan","Stockolmo","Lagomar","Verdirrojo","Trouville",
   "Tabaré","Montevideo","Colón","Albatros","Olivol Mundial","Sayago","Marne","Larre Borges"];
- 
+
 const CLUBES_LUB = ["Aguada","Defensor Sporting","Hebraica y Macabi","Nacional","Peñarol","Biguá",
   "Malvín","Cordón","Welcome","Urunday Universitario","Goes","Unión Atlética"];
- 
+
 const CLUBES_EXT = ["Obras Basket (ARG)","Instituto (ARG)","Quimsa (ARG)","Ferro Carril Oeste (ARG)",
   "Leyma Coruña (ESP)","Palencia (ESP)","Hapoel Galil (ISR)","Sesi Franca (BRA)","Universidad Católica (CHI)"];
- 
+
 const ATTR_KEYS = ["tiro","penetracion","defensa","rebote","pase","fisico","iq"];
 const ATTR_LBL = {tiro:"Tiro exterior",penetracion:"Penetración",defensa:"Defensa",
   rebote:"Rebote",pase:"Pase",fisico:"Físico",iq:"Lectura de juego"};
- 
+
 const POSICIONES = {
   "Base":       {ab:"B", uso:1.00, fReb:0.55, fAst:1.75, alt:[176,190],
+    txt:"Repartís el juego. Pesan el pase y la lectura. Muchas asistencias, casi nada de rebote.",
     pesos:{pase:22,iq:20,tiro:16,penetracion:16,defensa:12,fisico:8,rebote:6}},
   "Escolta":    {ab:"E", uso:1.16, fReb:0.75, fAst:1.05, alt:[184,196],
+    txt:"El que tira. Pesa el tiro exterior y es la posición que más puntos hace.",
     pesos:{tiro:28,penetracion:20,defensa:14,iq:12,pase:10,fisico:9,rebote:7}},
   "Alero":      {ab:"A", uso:1.10, fReb:1.00, fAst:0.85, alt:[190,201],
+    txt:"Todoterreno. Reparte parejo entre tiro, defensa y rebote. La posición más equilibrada.",
     pesos:{tiro:20,penetracion:20,defensa:17,fisico:13,rebote:12,pase:10,iq:8}},
   "Ala-pívot":  {ab:"AP",uso:1.00, fReb:1.35, fAst:0.55, alt:[197,206],
+    txt:"Trabajo sucio cerca del aro. Pesan el rebote y el físico, y el cuerpo lo paga.",
     pesos:{rebote:24,fisico:19,defensa:17,penetracion:15,tiro:13,iq:6,pase:6}},
   "Pívot":      {ab:"P", uso:1.02, fReb:1.60, fAst:0.45, alt:[201,212],
+    txt:"Dueño de la pintura. Máximo rebote y defensa, casi nada de tiro exterior.",
     pesos:{rebote:27,fisico:24,defensa:21,penetracion:11,tiro:6,iq:6,pase:5}}
 };
- 
+
 const SERVICIOS = [
   {id:"kine",  n:"Kinesiólogo",            c:1800, d:"Baja fuerte el riesgo de lesión y te recupera más rápido."},
   {id:"chef",  n:"Nutricionista y chef",   c:1500, d:"Menos desgaste y el cuerpo aguanta más después de los 28."},
@@ -427,19 +456,19 @@ const SERVICIOS = [
   {id:"video", n:"Analista de video",      c:900,  d:"Sube lectura de juego, pase y defensa."},
   {id:"rep",   n:"Representante",          c:2500, d:"Aparecen más ofertas y los contratos pagan mejor."}
 ];
- 
+
 const FOCOS = [
   {id:"gym",    n:"Gimnasio y pesas",       d:"Físico y rebote. Terminás la pretemporada fundido."},
   {id:"cancha", n:"Cancha y tiro",          d:"Tiro exterior y penetración."},
   {id:"video",  n:"Video y lectura",        d:"Lectura de juego, pase y defensa. Poco desgaste."},
   {id:"joda",   n:"Salir con los gurises",  d:"Recuperás moral, no crecés casi nada y te exponés a quilombos."}
 ];
- 
+
 const NIVEL_LIGA  = {Ascenso:60, LUB:71, Exterior:79};
 const MULT_COSTO  = {Ascenso:1, LUB:3.2, Exterior:9};   // un entorno de elite cuesta lo que cuesta
 const MULT_LIGA  = {Ascenso:0.60, LUB:1.00, Exterior:1.65};
 const PARTIDOS   = {Ascenso:26, LUB:28, Exterior:30};
- 
+
 /* ============================================================
    UTILIDADES
    ============================================================ */
@@ -450,30 +479,66 @@ const pick= arr => arr[Math.floor(Math.random()*arr.length)];
 const chance = p => Math.random() < p;
 const num = n => n.toLocaleString("es-UY");
 const dec = n => n.toFixed(1).replace(".", ",");
- 
+
 let S = null;          // estado de la partida
 let vista = "plan";    // plan | informe | fin
 let ultimoInforme = null;
-const KEY = "elmetro_v1";
- 
+const KEY = "elmetro_v3";
+const KEYS_VIEJAS = ["elmetro_v1","elmetro_v2"];
+// campos que tienen que existir sí o sí. Si falta uno, la partida es de una
+// versión anterior del motor y se descarta: es preferible perderla que jugar
+// con NaN dando vueltas por los atributos.
+const CAMPOS_REQ = ["nombre","pos","club","dorsal","edad","temporada","liga",
+                    "attr","techo","fatiga","moral","rep","plata","sueldo","svc","hist","tot"];
+
 function guardar(){
   try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){ /* modo sin persistencia */ }
 }
 function cargar(){
-  try{ const r = localStorage.getItem(KEY); return r ? JSON.parse(r) : null; }catch(e){ return null; }
+  try{
+    KEYS_VIEJAS.forEach(k=>{ try{ localStorage.removeItem(k); }catch(e){} });
+    const raw = localStorage.getItem(KEY);
+    if(!raw) return null;
+    const o = JSON.parse(raw);
+    if(!o || typeof o !== "object" || Array.isArray(o)) return null;
+    for(const c of CAMPOS_REQ) if(o[c] === undefined || o[c] === null) return null;
+    if(!POSICIONES[o.pos] || !NIVEL_LIGA[o.liga]) return null;
+    if(!Number.isFinite(o.techo) || !Array.isArray(o.hist)) return null;
+    for(const k of ATTR_KEYS) if(!Number.isFinite(o.attr[k])) return null;
+    return o;
+  }catch(e){ return null; }
 }
-function borrar(){ try{ localStorage.removeItem(KEY); }catch(e){} }
- 
+function borrar(){
+  try{ localStorage.removeItem(KEY); }catch(e){}
+}
+
 /* ============================================================
    MOTOR
    ============================================================ */
+// aproximación de Abramowitz-Stegun para la función error
+function erf(x){
+  const sg = x<0 ? -1 : 1; x = Math.abs(x);
+  const t = 1/(1 + 0.3275911*x);
+  const y = 1 - ((((1.061405429*t - 1.453152027)*t + 1.421413741)*t - 0.284496736)*t + 0.254829592)*t*Math.exp(-x*x);
+  return sg*y;
+}
+// dónde estás parado entre todos los jugadores de tu liga, asumiendo que las
+// medias se reparten en una normal centrada en el nivel de la categoría
+function rankLiga(s){
+  const equipos = s.liga==="Ascenso" ? 14 : 12;
+  const N = equipos*11;
+  const z = (media(s) - NIVEL_LIGA[s.liga]) / 9;
+  const pct = 0.5*(1 + erf(z/Math.SQRT2));
+  return {puesto: cl(Math.round((1-pct)*N), 1, N), N};
+}
+
 function media(s){
   const p = POSICIONES[s.pos].pesos;
   let tot=0, suma=0;
   for(const k of ATTR_KEYS){ suma += s.attr[k]*p[k]; tot += p[k]; }
   return Math.round(suma/tot);
 }
- 
+
 function factorEdadLesion(e){
   if(e<=20) return 0.82;
   if(e<=27) return 1.00;
@@ -500,7 +565,7 @@ function crecimientoBase(e){
   if(e<=36) return -4.4;
   return -5.2;
 }
- 
+
 function sueldoDe(s){
   const valor = media(s)*0.9 + s.rep*0.65;
   let base = {Ascenso:130, LUB:600, Exterior:2000}[s.liga] * valor;
@@ -510,181 +575,323 @@ function sueldoDe(s){
   if(s.edad>=35) base *= 0.72;
   return Math.max(900, Math.round(base/100)*100);
 }
- 
+
 function costoSvc(s, x){ return Math.round(x.c * MULT_COSTO[s.liga] / 50) * 50; }
 function costoAnual(s){
   return SERVICIOS.reduce((t,x)=> t + (s.svc[x.id] ? costoSvc(s,x) : 0), 0);
 }
 function gastosVida(s){
+  // alquiler, auto, la familia, la vida. Sube con lo que ganás.
   return Math.round(s.sueldo * (s.edad<=19 ? 0.30 : 0.50) / 50) * 50;
 }
- 
-/* ---------- EVENTOS (AHORA CONTEXTUALES) ---------- */
+
+/* ---------- EVENTOS ---------- */
 const EV = [
+
+/* --- lesiones y cuerpo --- */
 {id:"esguince", tipo:"malo",
  peso:s=> 15*riesgoLesion(s),
  run:s=>{ const p=ri(2,7); s._perdidos+=p; s.fatiga+=5;
    return "Esguince de tobillo en un entrenamiento. Te perdés "+p+" partidos."; }},
- 
+
 {id:"sobrecarga", tipo:"malo",
  peso:s=> 12*riesgoLesion(s)*(s.fatiga>55?1.6:1),
  run:s=>{ s.attr.fisico-=ri(2,4); s.fatiga+=9;
    return "Sobrecarga en los isquiotibiales. Jugás media temporada a mitad de máquina."; }},
- 
+
 {id:"ligamentos", tipo:"malo",
  peso:s=> 4.5*riesgoLesion(s),
  run:s=>{ const p=ri(12,22); s._perdidos+=p; s.attr.fisico-=ri(5,9); s.attr.penetracion-=ri(3,6);
    s.moral-=18; s.fatiga+=12;
    return "Rotura de ligamentos cruzados. Quirófano y "+p+" partidos afuera. La rodilla ya no va a ser la misma."; }},
- 
+
 {id:"espalda", tipo:"malo",
  peso:s=> s.edad>=30 ? 11*riesgoLesion(s) : 0,
  run:s=>{ const p=ri(4,10); s._perdidos+=p; s.attr.fisico-=ri(3,5);
    return "Lumbalgia crónica. "+p+" partidos de yeso y antiinflamatorios."; }},
- 
+
 {id:"peso", tipo:"malo",
  peso:s=> (!s.svc.chef && s.edad>=24) ? 11 : 0,
  run:s=>{ s.attr.fisico-=ri(2,5); s.attr.penetracion-=ri(1,3);
-   const lugar = s.liga === "Exterior" ? "Ibiza" : pick(["Rocha", "Punta del Este", "Florianópolis"]);
-   return `Volviste de las vacaciones en ${lugar} cuatro kilos arriba. El preparador físico te mandó a correr aparte.`; }},
- 
+   return "Volviste de las vacaciones cuatro kilos arriba. El técnico te lo hizo notar delante de todos."; }},
+
 {id:"kine_salva", tipo:"bueno",
  peso:s=> s.svc.kine ? 10 : 0,
  run:s=>{ s.fatiga-=14;
    return "Molestia en el aductor detectada a tiempo por el kinesiólogo. Dos semanas de carga controlada y listo."; }},
- 
+
+/* --- vida fuera de la cancha --- */
 {id:"joda_1", tipo:"malo",
  peso:s=> (s.foco==="joda"?26:7) * (s.edad<=25?1.3:0.8) * (s.svc.psico?0.7:1),
  run:s=>{ s.fatiga+=13; s.moral+=6; s._crec-=1.2;
-   if(s.liga === "Exterior"){
-     const fam = pick(["un streamer conocido", "un músico local", "un futbolista de primera", "una celebridad de allá"]);
-     return `Te invitaron a una fiesta VIP con ${fam} y te quedaste hasta las seis de la mañana. Al otro día había doble turno.`;
-   } else {
-     const loc = pick(["Malvín", "Pocitos", "el Prado", "el Parque Rodó"]);
-     return `Te quedaste hasta las seis en una joda por ${loc} con unos amigos. Al otro día había doble turno y no dabas más.`;
-   }
- }},
- 
+   return "Te quedaste hasta las seis en una fiesta en Malvín. Al otro día había doble turno."; }},
+
 {id:"joda_2", tipo:"malo",
  peso:s=> (s.foco==="joda"?15:3) * (s.rep>25?1.4:1),
  run:s=>{ s.rep-=6; s.moral-=10; s._perdidos+=ri(1,3);
-   if(s.liga === "Exterior"){
-     return "Salió un video tuyo tambaleando a la salida de una discoteca exclusiva la noche previa a un partido clave. El club te suspendió.";
-   } else {
-     return "Salió una foto tuya a las cuatro de la mañana comprando choripanes en un carrito antes de un clásico. El club te suspendió y la hinchada te puteó.";
-   }
- }},
- 
+   return "Salió una foto tuya a las cuatro de la mañana la noche previa a un clásico. El club te suspendió."; }},
+
 {id:"bajon", tipo:"malo",
  peso:s=> (s.moral<45 ? 16 : 5) * (s.svc.psico?0.45:1),
  run:s=>{ s.moral-=12; s._crec-=0.8;
    return "Venís con la cabeza en otro lado. Errás tiros que hacías dormido."; }},
- 
+
 {id:"psico_ayuda", tipo:"bueno",
  peso:s=> s.svc.psico ? 12 : 0,
  run:s=>{ s.moral+=15;
    return "Trabajaste la ansiedad con el psicólogo. Los partidos cerrados dejaron de pesarte."; }},
- 
+
 {id:"pareja", tipo:"neutro",
  peso:s=> (s.edad>=21 && s.edad<=32 && !s.pareja) ? 9 : 0,
  run:s=>{ s.pareja=true; s.moral+=11;
    return "Te pusiste de novio. Vas a los entrenamientos con otra cara."; }},
- 
+
 {id:"hijo", tipo:"neutro",
  peso:s=> s.edad>=24 && s.edad<=36 && !s.hijo ? 8 : 0,
  run:s=>{ s.hijo=true; s.moral+=16; s.fatiga+=8;
    return "Nació tu primer hijo. Dormís tres horas por noche y no te importa nada."; }},
- 
+
 {id:"liceo", tipo:"neutro",
  peso:s=> s.edad>=18 && s.edad<=20 && !s.liceo ? 12 : 0,
  run:s=>{ s.liceo=true; s.attr.iq+=2; s.moral+=5;
    return "Terminaste el liceo de noche mientras jugabas. No todos llegan."; }},
- 
+
+/* --- club y cuerpo técnico --- */
 {id:"tecnico_nuevo", tipo:"neutro",
  peso:s=> 13,
  run:s=>{ if(chance(0.5)){ s.moral+=9; return "Cambio de técnico y te cayó bien parado: te dio la llave del equipo."; }
-   s.moral-=11; s._minMod=-4; return "Cambió el técnico y no te tiene fe. Te bajaron los minutos."; }},
- 
+   s.moral-=11; s._minMod-=4; return "Cambió el técnico y no te tiene fe. Te bajaron los minutos."; }},
+
 {id:"banco", tipo:"malo",
  peso:s=> (media(s) < NIVEL_LIGA[s.liga]-6) ? 14 : 3,
- run:s=>{ s.moral-=10; s._minMod=-5;
+ run:s=>{ s.moral-=10; s._minMod-=5;
    return "Te sacaron del quinteto titular. Entrás a mitad del segundo cuarto y con la cabeza caliente."; }},
- 
+
 {id:"capitan", tipo:"bueno",
  peso:s=> (s.edad>=26 && s.rep>30 && !s.capitan) ? 14 : 0,
  run:s=>{ s.capitan=true; s.moral+=12; s.rep+=4; s.attr.iq+=2;
    return "Te dieron la cinta de capitán. Ahora el vestuario te mira a vos cuando las cosas se ponen feas."; }},
- 
+
 {id:"expulsion", tipo:"malo",
  peso:s=> 7 * (s.moral<50?1.7:1),
  run:s=>{ s._perdidos+=ri(1,3); s.rep-=3;
    return "Trifulca sobre la hora, doble técnica y fecha de suspensión."; }},
- 
+
 {id:"clinica", tipo:"bueno",
  peso:s=> 9,
  run:s=>{ s.attr.iq+=ri(2,4); s.attr.defensa+=ri(1,3);
    return "Clínica con un jugador de la selección mayor. Te llevaste tres cosas que no sabías que existían."; }},
- 
+
+/* --- rendimiento y premios --- */
 {id:"anotador", tipo:"bueno",
  peso:s=> s._ppg>=15 ? 18 : 0,
  run:s=>{ s.rep+=7; s.moral+=8;
    return "Terminaste entre los máximos anotadores de la "+(s.liga==="Ascenso"?"Liga de Ascenso":s.liga)+"."; }},
- 
+
 {id:"quinteto", tipo:"oro",
  peso:s=> media(s) >= NIVEL_LIGA[s.liga]+11 ? 15 : 0,
  run:s=>{ s.rep+=11; s.moral+=12;
-   return "Quinteto ideal de la temporada. Te lo entregaron en una gala a fin de año."; }},
- 
+   return "Quinteto ideal de la temporada. Te lo entregaron en el Palacio Peñarol."; }},
+
 {id:"triple_dobles", tipo:"oro",
  peso:s=> (s._apg>=6 && s._rpg>=6 && s._ppg>=12) ? 10 : 0,
  run:s=>{ s.rep+=9;
-   return "Metiste dos triples-dobles en la misma temporada. Una locura estadística."; }},
- 
+   return "Metiste dos triples-dobles en la misma temporada. En el Metro eso no pasa todos los años."; }},
+
 {id:"nota", tipo:"bueno",
  peso:s=> s.rep>15 ? 12 : 4,
  run:s=>{ s.rep+=5;
-   const medio = s.liga === "Exterior" ? "un portal deportivo de allá" : "Básquet Caliente";
-   return `Te hicieron una nota en ${medio}. Tu vieja imprimió la página.`; }},
- 
+   return "Te hicieron una nota en Basquet Caliente. Tu vieja imprimió la página."; }},
+
 {id:"sponsor", tipo:"bueno",
  peso:s=> s.rep>22 ? 12 : 0,
  run:s=>{ const g = Math.round((600 + s.rep*90)/100)*100; s.plata += g;
    return "Una casa de deportes te firmó como imagen: U$S "+num(g)+" y championes gratis."; }},
- 
+
+/* --- selección --- */
 {id:"sub19", tipo:"oro",
  peso:s=> (s.edad<=19 && media(s)>=58 && !s.sel19) ? 22 : 0,
  run:s=>{ s.sel19=true; s.rep+=13; s.moral+=14; s.attr.iq+=2;
    return "Convocado a la selección uruguaya sub-19 para el Sudamericano. Primera vez que te ponés la celeste."; }},
- 
+
 {id:"mayor", tipo:"oro",
  peso:s=> (s.edad>=21 && s.rep>=58 && media(s)>=82 && !s.selMayor) ? 20 : 0,
  run:s=>{ s.selMayor=true; s.rep+=20; s.moral+=20;
    return "Te llamaron a la selección mayor para las Ventanas FIBA. Debutaste contra Argentina."; }},
- 
+
 {id:"mayor_gol", tipo:"oro",
  peso:s=> s.selMayor ? 10 : 0,
  run:s=>{ s.rep+=8;
-   return "Jugaste la AmeriCup con la mayor y fuiste de lo mejor de Uruguay."; }}
+   return "Jugaste la AmeriCup con la mayor y fuiste de lo mejor de Uruguay."; }},
+
+/* --- plata y vida de jugador de ascenso --- */
+{id:"sueldo_atrasado", tipo:"malo",
+ peso:s=> s.liga==="Ascenso" ? 13 : 3,
+ run:s=>{ const d=Math.round(s.sueldo*0.28); s.plata-=d; s.moral-=9;
+   return "El club te debe tres meses. Se arregló a medias y perdiste U$S "+num(d)+"."; }},
+
+{id:"laburo", tipo:"neutro",
+ peso:s=> (s.liga==="Ascenso" && s.sueldo<6000 && s.edad>=18) ? 14 : 0,
+ run:s=>{ s.fatiga+=10; s._crec-=0.7; s.plata+=1400;
+   return "Con lo que paga el club no te da, así que entrás a laburar de mañana. Llegás a entrenar fundido."; }},
+
+{id:"auto", tipo:"neutro",
+ peso:s=> (s.plata>7000 && !s.auto) ? 11 : 0,
+ run:s=>{ s.auto=true; const c=Math.round(Math.min(s.plata*0.35,14000)/100)*100; s.plata-=c; s.moral+=10;
+   return "Te compraste tu primer auto con U$S "+num(c)+". Se terminó el ómnibus a los entrenamientos."; }},
+
+{id:"mudanza", tipo:"neutro",
+ peso:s=> (s.edad>=20 && s.edad<=28 && !s.mudado && s.plata>4000) ? 10 : 0,
+ run:s=>{ s.mudado=true; s.plata-=2200; s.moral+=8;
+   return "Te fuiste a vivir solo. Menos ruido en casa, más gastos."; }},
+
+{id:"publicidad", tipo:"bueno",
+ peso:s=> s.rep>30 ? 10 : 0,
+ run:s=>{ const g=Math.round((900+s.rep*70)/100)*100; s.plata+=g;
+   return "Saliste en una publicidad de una mutualista. U$S "+num(g)+" por dos días de filmación."; }},
+
+/* --- más maneras de romperse --- */
+{id:"dedo", tipo:"malo",
+ peso:s=> 11*riesgoLesion(s),
+ run:s=>{ const p=ri(2,5); s._perdidos+=p; s.attr.tiro-=ri(1,3);
+   return "Fractura de dedo tapando un tiro. "+p+" partidos y la mano queda rara un tiempo."; }},
+
+{id:"menisco", tipo:"malo",
+ peso:s=> s.edad>=24 ? 8*riesgoLesion(s) : 0,
+ run:s=>{ const p=ri(7,14); s._perdidos+=p; s.attr.fisico-=ri(3,6); s.attr.penetracion-=ri(2,4); s.moral-=10;
+   return "Artroscopía de menisco. "+p+" partidos afuera y volvés cuidando la rodilla."; }},
+
+{id:"tendinitis", tipo:"malo",
+ peso:s=> 10*riesgoLesion(s),
+ run:s=>{ s.attr.penetracion-=ri(1,4); s.fatiga+=11;
+   return "Tendinitis rotuliana. Jugás infiltrado media temporada y saltás la mitad."; }},
+
+{id:"virus", tipo:"malo",
+ peso:s=> 8,
+ run:s=>{ const p=ri(1,4); s._perdidos+=p; s.attr.fisico-=ri(1,2);
+   return "Te agarró una virosis brava. Bajaste tres kilos y perdiste "+p+" partidos."; }},
+
+{id:"hombro", tipo:"malo",
+ peso:s=> s.edad>=27 ? 8*riesgoLesion(s) : 0,
+ run:s=>{ const p=ri(3,8); s._perdidos+=p; s.attr.tiro-=ri(2,4);
+   return "Te luxaste el hombro cayendo en un rebote. "+p+" partidos y el tiro tarda en volver."; }},
+
+/* --- adentro de la cancha --- */
+{id:"cambio_pos", tipo:"neutro",
+ peso:s=> 9,
+ run:s=>{ s.attr.iq+=ri(1,3); s.attr.defensa+=ri(1,3); s.fatiga+=4;
+   return "El técnico te cambió de posición por necesidad del equipo. Te costó, pero aprendiste a leer otra parte del juego."; }},
+
+{id:"titular_lesion", tipo:"bueno",
+ peso:s=> 12,
+ run:s=>{ s._minMod+=5; s.moral+=7;
+   return "Se rompió el titular de tu puesto y agarraste el lugar. Es feo decirlo, pero es tu oportunidad."; }},
+
+{id:"racha_mala", tipo:"malo",
+ peso:s=> 12*(s.moral<55?1.5:1),
+ run:s=>{ s.attr.tiro-=ri(2,4); s.moral-=9;
+   return "Entraste en una racha de tiro horrible. Diez partidos sin meter una de tres."; }},
+
+{id:"record_triples", tipo:"oro",
+ peso:s=> (s.attr.tiro>=70 && s._ppg>=11) ? 12 : 0,
+ run:s=>{ s.rep+=8; s.moral+=11;
+   return "Metiste 9 triples en un partido. Récord del club y video que circuló todo el fin de semana."; }},
+
+{id:"amistoso_lub", tipo:"bueno",
+ peso:s=> s.liga==="Ascenso" ? 11 : 0,
+ run:s=>{ if(media(s)>=64){ s.rep+=6; s.attr.iq+=2;
+     return "Amistoso de pretemporada contra un equipo de la LUB y no desentonaste. Alguno tomó nota."; }
+   s.moral-=6; return "Amistoso contra un equipo de la LUB y te pasaron por arriba. Volviste callado en el ómnibus."; }},
+
+{id:"ojeador", tipo:"bueno",
+ peso:s=> (s.rep>=25 && s.edad<=26) ? 11 : 0,
+ run:s=>{ s.rep+=7; s.moral+=8;
+   return "Un ojeador argentino se apareció en el gimnasio a verte. Jugaste el peor primer cuarto de tu vida y después te soltaste."; }},
+
+{id:"all_star", tipo:"bueno",
+ peso:s=> (s.rep>=30 && s.attr.tiro>=65) ? 11 : 0,
+ run:s=>{ s.rep+=6; s.moral+=9;
+   return "Ganaste el concurso de triples del Juego de las Estrellas."; }},
+
+{id:"liga_verano", tipo:"neutro",
+ peso:s=> s.edad<=26 ? 10 : 0,
+ run:s=>{ s.plata+=800; s.fatiga+=9; s.attr.penetracion+=ri(1,3);
+   return "Jugaste la liga de verano por unos mangos. Sumaste minutos y perdiste vacaciones."; }},
+
+{id:"tapon", tipo:"bueno",
+ peso:s=> (s.attr.defensa>=68 || s.attr.rebote>=70) ? 10 : 0,
+ run:s=>{ s.rep+=5; s.attr.defensa+=ri(1,2);
+   return "Tu tapón sobre la hora salió en todos los resúmenes de la fecha."; }},
+
+/* --- club, hinchada, vestuario --- */
+{id:"barra", tipo:"malo",
+ peso:s=> (s.moral<50 || s.rep>40) ? 9 : 4,
+ run:s=>{ s.moral-=13;
+   return "Un grupo de la hinchada te esperó en la puerta del gimnasio después de una derrota fea."; }},
+
+{id:"canto", tipo:"bueno",
+ peso:s=> s.rep>=28 ? 11 : 0,
+ run:s=>{ s.moral+=15; s.rep+=3;
+   return "La hinchada te sacó un canto propio. Lo escuchaste por primera vez de espaldas, tirando un lateral."; }},
+
+{id:"companero", tipo:"neutro",
+ peso:s=> s.edad>=19 ? 9 : 0,
+ run:s=>{ s.moral-=7;
+   return "Se fue tu mejor amigo del plantel a otro club. El vestuario no es el mismo."; }},
+
+{id:"asamblea", tipo:"malo",
+ peso:s=> s.liga==="Ascenso" ? 10 : 4,
+ run:s=>{ s.moral-=8; s.plata-=Math.round(s.sueldo*0.12);
+   return "Crisis institucional en el club: asamblea, directiva nueva y todo el mundo cobrando tarde."; }},
+
+{id:"gimnasio", tipo:"bueno",
+ peso:s=> 8,
+ run:s=>{ s.attr.fisico+=ri(1,3); s.fatiga-=6;
+   return "El club estrenó gimnasio y sala de pesas. Se nota en las piernas al final de los partidos."; }},
+
+{id:"curso_dt", tipo:"bueno",
+ peso:s=> (s.edad>=29 && !s.cursoDT) ? 12 : 0,
+ run:s=>{ s.cursoDT=true; s.attr.iq+=ri(3,5);
+   return "Arrancaste el curso de entrenador pensando en el después. Empezaste a ver el juego de otra manera."; }},
+
+{id:"dieta", tipo:"bueno",
+ peso:s=> (s.svc.chef && s.edad>=26) ? 11 : 0,
+ run:s=>{ s.attr.fisico+=ri(1,3); s.fatiga-=10;
+   return "Cambiaste la alimentación en serio y llegás entero a los últimos cuartos."; }},
+
+{id:"mentor", tipo:"bueno",
+ peso:s=> (s.edad<=21) ? 12 : 0,
+ run:s=>{ s.attr.iq+=ri(2,4); s.moral+=7;
+   return "Un veterano del plantel te tomó de aprendiz. Te enseñó más en una temporada que tres años de formativas."; }},
+
+{id:"pibe", tipo:"neutro",
+ peso:s=> (s.edad>=30) ? 10 : 0,
+ run:s=>{ s.moral+=9; s.rep+=3;
+   return "Ahora el pibe de 17 que sube de formativas te mira a vos como vos mirabas a alguien."; }}
+
 ];
- 
+
 /* ---------- SIMULACIÓN DE UNA TEMPORADA ---------- */
 function jugarTemporada(){
   const s = S;
   s._perdidos = 0; s._crec = 0; s._minMod = 0;
+  const snapAttr = {};
+  for(const k of ATTR_KEYS) snapAttr[k] = Math.round(s.attr[k]);
   const hitos = [];
   const add = (txt,tipo)=> hitos.push({txt,tipo});
- 
+
   /* 1. cobros y pagos de la temporada */
   const costo = costoAnual(s);
   const vida  = gastosVida(s);
   s.plata += s.sueldo;
   s.plata -= costo + vida;
   if(s.plata < 0){
+    // no te dio el bolsillo: se cae todo el entorno
     for(const x of SERVICIOS) s.svc[x.id] = false;
     s.plata = 0; s.moral -= 8;
     add("No te dio la plata para pagar el entorno. Diste de baja a todos y volviste a entrenar solo.","malo");
   }
- 
+
   /* 2. crecimiento de pretemporada */
   let base = crecimientoBase(s.edad);
   base += (s.moral-60)/45;
@@ -693,7 +900,7 @@ function jugarTemporada(){
   if(s.svc.chef) base += 0.35;
   if(s.foco==="joda") base -= 1.6;
   base += s._crec;
- 
+
   const bono = {tiro:0,penetracion:0,defensa:0,rebote:0,pase:0,fisico:0,iq:0};
   if(s.foco==="gym"){    bono.fisico+=2.1; bono.rebote+=1.6; s.fatiga+=9; }
   if(s.foco==="cancha"){ bono.tiro+=2.2; bono.penetracion+=1.6; s.fatiga+=5; }
@@ -702,14 +909,17 @@ function jugarTemporada(){
   if(s.svc.pf){    bono.fisico+=1.3; bono.rebote+=0.9; }
   if(s.svc.tiro){  bono.tiro+=1.5; }
   if(s.svc.video){ bono.iq+=1.0; bono.pase+=0.9; bono.defensa+=0.9; }
- 
+
   const antes = media(s);
+  if(!Number.isFinite(s.techo)) s.techo = 78;
   for(const k of ATTR_KEYS){
     let d = base + bono[k] + rnd(-1.1,1.1);
+    // cuanto más cerca del techo, menos rinde cada hora de gimnasio
     if(d > 0) d *= cl(1 - Math.pow(s.attr[k]/s.techo, 2.2), 0, 1);
-    s.attr[k] = cl(s.attr[k] + d, 5, 99);
+    const nuevo = s.attr[k] + d;
+    s.attr[k] = Number.isFinite(nuevo) ? cl(nuevo, 5, 99) : s.attr[k];
   }
- 
+
   /* 3. minutos y estadística */
   const pos = POSICIONES[s.pos];
   const m = media(s);
@@ -718,17 +928,18 @@ function jugarTemporada(){
   if(s.fatiga>60) min -= 3;
   if(s.fatiga>78) min -= 5;
   min = cl(min, 7, 36);
- 
+
   const ppg = cl((s.attr.tiro*0.45 + s.attr.penetracion*0.45 + s.attr.fisico*0.10)/100 * min * 0.60 * pos.uso * rnd(0.88,1.12), 0, 36);
   const rpg = cl((s.attr.rebote*0.75 + s.attr.fisico*0.25)/100 * min * 0.26 * pos.fReb * rnd(0.88,1.12), 0, 20);
   const apg = cl((s.attr.pase*0.72 + s.attr.iq*0.28)/100 * min * 0.17 * pos.fAst * rnd(0.88,1.12), 0, 14);
   s._ppg = ppg; s._rpg = rpg; s._apg = apg;
- 
+
   /* 4. eventos de la temporada */
   const cantidad = 2 + (chance(0.55) ? 1 : 0) + (chance(0.2) ? 1 : 0);
   const usados = new Set();
   const reciente = new Set(s.ultEv || []);
   if(!s.evN) s.evN = {};
+  // cada vez que algo ya te pasó, es menos probable que vuelva a pasar igual
   const pesoDe = e => e.peso(s) * (reciente.has(e.id) ? 0.18 : 1) / (1 + (s.evN[e.id]||0)*0.95);
   for(let i=0;i<cantidad;i++){
     const pool = EV.filter(e => !usados.has(e.id) && e.peso(s) > 0);
@@ -741,8 +952,8 @@ function jugarTemporada(){
     add(elegido.run(s), elegido.tipo);
   }
   s.ultEv = [...usados, ...(s.ultEv||[])].slice(0,8);
- 
-  /* 5. partidos jugados y campaña */
+
+  /* 5. partidos jugados y campaña del club */
   const totalPJ = PARTIDOS[s.liga];
   const pj = cl(totalPJ - s._perdidos, 0, totalPJ);
   const aporte = (m - NIVEL_LIGA[s.liga]) * 0.28 * (min/30) * (pj/totalPJ);
@@ -751,7 +962,7 @@ function jugarTemporada(){
   const vict = Math.round(totalPJ*winrate);
   const equipos = s.liga==="Ascenso" ? 14 : 12;
   const puesto = cl(Math.round(equipos + 0.5 - winrate*(equipos-1)), 1, equipos);
- 
+
   /* 6. ascensos y descensos */
   let cambioLiga = null, forzarCambio = false;
   if(s.liga==="Ascenso" && puesto<=2){
@@ -766,13 +977,15 @@ function jugarTemporada(){
     add(s.club+" descendió a la Liga de Ascenso. Un año para arriba, otro para abajo.","malo");
     s.moral -= 16;
   }
- 
+
   /* 7. reputación, fatiga, desgaste */
   s.rep = cl(s.rep*0.90 + (ppg*0.62 + apg*0.52 + rpg*0.46)*MULT_LIGA[s.liga]*(pj/totalPJ), 0, 100);
   s.fatiga = cl(s.fatiga + (min/36)*16 + (s.edad>=31?7:0) - (s.svc.kine?11:0) - (s.svc.chef?5:0) - 6, 0, 100);
   s.moral  = cl(s.moral + (winrate>0.55?5:-4) + (ppg>12?4:0), 0, 100);
- 
-  /* 8. registro */
+
+  /* 8. registro de la temporada */
+  s.attrD = {};
+  for(const k of ATTR_KEYS) s.attrD[k] = Math.round(s.attr[k]) - snapAttr[k];
   const despues = media(s);
   const reg = {
     temp: s.temporada, edad: s.edad, club: s.club, liga: s.liga,
@@ -782,8 +995,8 @@ function jugarTemporada(){
   s.hist.push(reg);
   s.tot.pj += pj;
   s.tot.pts += ppg*pj; s.tot.reb += rpg*pj; s.tot.ast += apg*pj;
- 
-  /* 9. ofertas */
+
+  /* 9. ofertas para la temporada siguiente */
   let oferta = null;
   const umbralM = s.svc.rep ? 4 : 0;
   if(s.liga==="LUB" && despues>=80 && s.rep>=55-umbralM*2 && chance(s.svc.rep?0.5:0.26)){
@@ -796,13 +1009,16 @@ function jugarTemporada(){
     const lista = s.liga==="Ascenso" ? CLUBES_ASCENSO : s.liga==="LUB" ? CLUBES_LUB : CLUBES_EXT;
     oferta = {liga:s.liga, club: pick(lista.filter(c=>c!==s.club)), lateral:true};
   }
- 
-  /* 10. avanzar */
+
+  /* 10. avanzar el calendario */
   s.temporada++; s.edad++;
-  if(cambioLiga){ s.liga = cambioLiga; }
-  else if(forzarCambio){ s.club = pick(CLUBES_ASCENSO.filter(c=>c!==s.club)); }
+  if(cambioLiga){
+    s.liga = cambioLiga;   // subís o bajás con tu club, no te movés vos
+  } else if(forzarCambio){
+    s.club = pick(CLUBES_ASCENSO.filter(c=>c!==s.club));
+  }
   s.sueldo = sueldoDe(s);
- 
+
   /* 11. retiro */
   let retiro = null;
   const mFinal = media(s);
@@ -810,13 +1026,13 @@ function jugarTemporada(){
   else if(s.attr.fisico<=26 && s.edad>=31) retiro = "Las rodillas no dan más. Colgás las zapatillas a los "+s.edad+".";
   else if(mFinal<50 && s.edad>=30) retiro = "Nadie te ofreció contrato para el año que viene. Se terminó a los "+s.edad+".";
   else if(s.edad>=31 && chance((s.edad-30)*0.22)) retiro = "Decidiste que era el momento. Última temporada a los "+(s.edad-1)+".";
- 
+
   ultimoInforme = {reg, oferta, retiro, costo, vida, cambioLiga};
   vista = "informe";
   if(retiro) s.retirado = true;
   guardar();
 }
- 
+
 /* ============================================================
    NUEVA PARTIDA
    ============================================================ */
@@ -824,13 +1040,14 @@ function nuevaPartida(nombre, pos, club, dorsal){
   const p = POSICIONES[pos];
   const attr = {};
   for(const k of ATTR_KEYS){
+    // los atributos fuertes de la posición arrancan apenas mejor
     attr[k] = cl(ri(33,46) + p.pesos[k]*0.30 + rnd(-3,3), 18, 60);
   }
   return {
     nombre, pos, club, dorsal,
     altura: ri(p.alt[0], p.alt[1]),
     edad:16, temporada:2026, liga:"Ascenso",
-    techo: ri(58,94),
+    techo: ri(58,94),           // potencial oculto: nadie sabe hasta dónde da
     attr, fatiga:12, moral:70, rep:6, ultEv:[], evN:{},
     plata:800, sueldo:1200,
     svc:{}, foco:"cancha",
@@ -838,31 +1055,31 @@ function nuevaPartida(nombre, pos, club, dorsal){
     retirado:false, hijo:false, liceo:false, sel19:false, selMayor:false
   };
 }
- 
+
 /* ============================================================
    RENDER
    ============================================================ */
 const $ = id => document.getElementById(id);
- 
+
 function colorGauge(v, invertido){
   const bueno = invertido ? 100-v : v;
   if(bueno>=66) return "var(--ok)";
   if(bueno>=38) return "var(--parquet)";
   return "var(--bad)";
 }
- 
+
 function renderFicha(){
   const s = S;
   $("fichaTemp").textContent = s.retirado ? "Carrera terminada" : "Temporada "+s.temporada;
   $("uiDorsal").innerHTML = s.dorsal+"<small>Dorsal</small>";
   $("uiNombre").textContent = s.nombre;
- 
+
   const badge = s.liga==="Ascenso" ? '<span class="badge">Liga de Ascenso</span>'
              : s.liga==="LUB"      ? '<span class="badge badge--lub">LUB</span>'
                                    : '<span class="badge badge--ext">Exterior</span>';
   $("uiMeta").innerHTML = s.edad+" años · "+s.pos+" · "+s.altura+" cm<br>"+
     "<b>"+s.club+"</b> &nbsp; "+badge;
- 
+
   const m = media(s);
   $("uiMedia").textContent = m;
   const ult = s.hist[s.hist.length-1];
@@ -872,15 +1089,23 @@ function renderFicha(){
   else if(d>=0.5){ dEl.textContent="▲ "+dec(d); dEl.className="delta up"; }
   else if(d<=-0.5){ dEl.textContent="▼ "+dec(Math.abs(d)); dEl.className="delta down"; }
   else { dEl.textContent="= 0,0"; dEl.className="delta flat"; }
- 
+
+  // atributos
   $("uiAttrs").innerHTML = ATTR_KEYS.map(k=>{
     const v = Math.round(s.attr[k]);
     const cls = v>=75 ? "hi" : v>=45 ? "" : "lo";
+    const dd = s.attrD ? s.attrD[k] : 0;
+    const dTxt = !dd ? '' : dd>0 ? '<span class="up">▲'+dd+'</span>' : '<span class="down">▼'+Math.abs(dd)+'</span>';
     return '<div class="attr"><span class="attr-name">'+ATTR_LBL[k]+'</span>'+
-           '<span class="attr-val">'+v+'</span><span class="attr-d"></span>'+
+           '<span class="attr-val">'+v+'</span><span class="attr-d">'+dTxt+'</span>'+
            '<span class="bar"><i class="'+cls+'" style="width:'+v+'%"></i></span></div>';
   }).join("");
- 
+
+  const rk = rankLiga(s);
+  const nomLiga = s.liga==="Ascenso" ? "la Liga de Ascenso" : s.liga==="LUB" ? "la LUB" : "tu liga del exterior";
+  $("uiRank").innerHTML = "En "+nomLiga+" sos el <b>"+rk.puesto+"º</b> de "+rk.N+" jugadores";
+
+  // condicion
   const conds = [
     {l:"Fatiga",     v:Math.round(s.fatiga), inv:true},
     {l:"Moral",      v:Math.round(s.moral),  inv:false},
@@ -891,16 +1116,18 @@ function renderFicha(){
     '<span class="cond-val">'+c.v+'</span></div>'+
     '<div class="gauge"><i style="width:'+c.v+'%;background:'+colorGauge(c.v,c.inv)+'"></i></div></div>'
   ).join("");
- 
+
+  // totales
   const t = s.tot;
   const pj = t.pj || 1;
   $("uiTotals").innerHTML =
     tot(t.pj, "Partidos") + tot(dec(t.pts/pj), "PTS / prom") +
     tot(dec(t.reb/pj), "REB / prom") + tot(dec(t.ast/pj), "AST / prom");
   function tot(n,l){ return '<div class="tot"><div class="tot-n">'+n+'</div><div class="tot-l">'+l+'</div></div>'; }
- 
+
   $("uiPjTot").textContent = s.hist.length ? s.hist.length+" temporada"+(s.hist.length>1?"s":"") : "";
- 
+
+  // planilla
   if(!s.hist.length){
     $("uiPlanilla").innerHTML = '<div class="empty">Todavía no jugaste nada. La planilla se llena sola.</div>';
   } else {
@@ -910,11 +1137,13 @@ function renderFicha(){
         '<div class="season-row">'+
           '<span class="s-year">'+r.temp+'</span>'+
           '<span class="s-club">'+r.club+' <em>'+ligaTag+' · '+r.record+' · '+r.puesto+'º</em></span>'+
-          '<span>'+r.edad+'</span>'+
-          '<span>'+r.pj+'</span>'+
-          '<span>'+dec(r.ppg)+'</span>'+
-          '<span>'+dec(r.rpg)+'</span>'+
-          '<span>'+dec(r.apg)+'</span>'+
+          '<span class="s-ed">'+r.edad+'</span>'+
+          '<span class="s-nums">'+
+            '<span data-l="PJ">'+r.pj+'</span>'+
+            '<span data-l="PTS">'+dec(r.ppg)+'</span>'+
+            '<span data-l="REB">'+dec(r.rpg)+'</span>'+
+            '<span data-l="AST">'+dec(r.apg)+'</span>'+
+          '</span>'+
         '</div>'+
         (r.hitos.length ? '<div class="hitos">'+r.hitos.map(h=>
           '<div class="hito '+h.tipo+'">'+h.txt+'</div>').join("")+'</div>' : "")+
@@ -922,22 +1151,22 @@ function renderFicha(){
     }).join("");
   }
 }
- 
+
 function renderPanel(){
   const s = S;
   if(vista==="informe"){ renderInforme(); return; }
   if(s.retirado){ renderFin(); return; }
- 
+
   $("panelTitle").textContent = "Pretemporada "+s.temporada;
   $("panelNote").textContent = "U$S "+num(Math.round(s.plata));
- 
+
   const costo = costoAnual(s);
   const vida  = gastosVida(s);
   const disponible = s.plata + s.sueldo - vida;
   const saldo = disponible - costo;
- 
+
   let h = "";
- 
+
   h += '<div class="section"><div class="section-t"><span>Plata</span><span>Saldo al cierre: '+
     (saldo<0?'<span style="color:var(--bad)">−U$S '+num(Math.abs(Math.round(saldo)))+'</span>'
             :'U$S '+num(Math.round(saldo)))+'</span></div><div class="money money--4">'+
@@ -946,7 +1175,7 @@ function renderPanel(){
     '<div><div class="money-n" style="color:var(--muted)">−'+num(vida)+'</div><div class="money-l">Vida</div></div>'+
     '<div><div class="money-n" style="color:'+(saldo<0?"var(--bad)":"var(--muted)")+'">−'+num(costo)+'</div><div class="money-l">Entorno</div></div>'+
     '</div></div>';
- 
+
   h += '<div class="section"><div class="section-t"><span>Tu entorno</span><span>Costo por temporada</span></div>';
   for(const x of SERVICIOS){
     const on = !!s.svc[x.id];
@@ -962,7 +1191,7 @@ function renderPanel(){
     h += '<div class="warn">Con este entorno terminás la temporada en rojo. Si no te da la plata se te cae todo el equipo de trabajo de una.</div>';
   }
   h += '</div>';
- 
+
   h += '<div class="section"><div class="section-t">En qué ponés la pretemporada</div><div class="focos">';
   for(const f of FOCOS){
     const on = s.foco===f.id;
@@ -971,13 +1200,13 @@ function renderPanel(){
          '<span class="foco-d">'+f.d+'</span></span></button>';
   }
   h += '</div></div>';
- 
+
   h += '<div class="section"><button class="btn btn--led" id="btnJugar">Jugar temporada '+s.temporada+'</button>';
   if(s.edad>=30) h += '<button class="btn btn--ghost" id="btnRetiro" style="width:100%;margin-top:8px">Retirarme ahora</button>';
   h += '</div>';
- 
+
   $("panelBody").innerHTML = h;
- 
+
   $("panelBody").querySelectorAll("[data-svc]").forEach(el=>{
     el.addEventListener("click", ()=>{
       const id = el.dataset.svc;
@@ -996,25 +1225,28 @@ function renderPanel(){
     if(confirm("¿Seguro que te retirás a los "+s.edad+"?")){ s.retirado=true; vista="fin"; guardar(); render(); }
   });
 }
- 
+
 function renderInforme(){
   const s = S;
   const {reg, oferta, retiro, costo} = ultimoInforme;
-  $("panelTitle").textContent = "Resumen de Temporada "+reg.temp;
+  $("panelTitle").textContent = "Temporada "+reg.temp;
   $("panelNote").textContent = reg.club;
- 
+
   const dTxt = reg.delta>=0.5 ? '<span class="up">▲ '+dec(reg.delta)+'</span>'
              : reg.delta<=-0.5 ? '<span class="down">▼ '+dec(Math.abs(reg.delta))+'</span>'
              : '<span class="flat">= 0,0</span>';
- 
+
+  const rk = rankLiga(s);
+  const rkTxt = rk.puesto+'º de '+rk.N+' en la liga';
   let h = '<div class="statline">'+
-    reg.club+' · '+reg.record+' · '+reg.puesto+'º de '+(reg.liga==="Ascenso"?14:12)+'<br>'+
+    reg.club+' · '+reg.record+' · '+reg.puesto+'º de '+(reg.liga==="Ascenso"?14:12)+' equipos<br>'+
     '<b>'+reg.pj+'</b> PJ &nbsp; <b>'+dec(reg.ppg)+'</b> PTS &nbsp; <b>'+dec(reg.rpg)+'</b> REB &nbsp; <b>'+dec(reg.apg)+'</b> AST<br>'+
-    'Media actualizada: <b>'+Math.round(reg.media)+'</b> '+dTxt+' &nbsp;·&nbsp; entorno −U$S '+num(costo)+' &nbsp;·&nbsp; vida −U$S '+num(ultimoInforme.vida)+
+    'Media '+Math.round(reg.media)+' '+dTxt+' &nbsp;·&nbsp; '+rkTxt+'<br>'+
+    'Entorno −U$S '+num(costo)+' &nbsp;·&nbsp; vida −U$S '+num(ultimoInforme.vida)+
     '</div>';
- 
+
   h += reg.hitos.map(x=> '<div class="report-line '+x.tipo+'">'+x.txt+'</div>').join("");
- 
+
   if(retiro){
     h += '<div class="decision"><p>'+retiro+'</p>'+
          '<button class="btn btn--led" id="btnFin">Ver el legado</button></div>';
@@ -1025,16 +1257,16 @@ function renderInforme(){
       ? "Se te terminó el contrato afuera. "+oferta.club+" te quiere de vuelta en Uruguay."
       : oferta.liga==="LUB"
         ? "Llamó "+oferta.club+". Te ofrecen contrato para jugar la Liga Uruguaya."
-        : "Llamó "+oferta.club+". Te quieren llevar a jugar al Exterior.";
+        : "Llamó "+oferta.club+". Te quieren llevar afuera.";
     h += '<div class="decision"><p>'+txt+'</p><div class="decision-btns">'+
-         '<button class="btn btn--ok" id="btnAcepto">Fichar por '+oferta.club+'</button>'+
-         '<button class="btn btn--ghost" id="btnRechazo">Quedarme en '+s.club+'</button></div></div>';
+         '<button class="btn btn--ok" id="btnAcepto">Firmo</button>'+
+         '<button class="btn btn--ghost" id="btnRechazo">Me quedo</button></div></div>';
   } else {
-    h += '<button class="btn btn--led" id="btnSeguir" style="margin-top:14px">Ir a la pretemporada '+s.temporada+' y ver atributos</button>';
+    h += '<button class="btn btn--led" id="btnSeguir" style="margin-top:14px">Ir a la pretemporada '+s.temporada+'</button>';
   }
- 
+
   $("panelBody").innerHTML = h;
- 
+
   const bF = $("btnFin"); if(bF) bF.addEventListener("click", ()=>{ vista="fin"; render(); });
   const bS = $("btnSeguir"); if(bS) bS.addEventListener("click", ()=>{ vista="plan"; render(); });
   const bA = $("btnAcepto");
@@ -1051,23 +1283,42 @@ function renderInforme(){
     vista="plan"; guardar(); render();
   });
 }
- 
+
+async function compartir(txt, btn){
+  const ok = ()=>{ btn.textContent = "¡Copiado! Pegalo donde quieras"; btn.classList.add("share-ok");
+                   setTimeout(()=>{ btn.textContent = "Compartir mi carrera"; btn.classList.remove("share-ok"); }, 2600); };
+  // en el celular abre el menú nativo, que es el camino corto a WhatsApp
+  if(navigator.share){
+    try{ await navigator.share({title:"El Metro", text:txt}); return; }
+    catch(e){ if(e && e.name === "AbortError") return; }
+  }
+  try{ await navigator.clipboard.writeText(txt); ok(); return; }catch(e){}
+  // navegadores viejos o contextos sin https
+  try{
+    const ta = document.createElement("textarea");
+    ta.value = txt; ta.setAttribute("readonly","");
+    ta.style.cssText = "position:absolute;left:-9999px";
+    document.body.appendChild(ta); ta.select();
+    document.execCommand("copy"); document.body.removeChild(ta); ok();
+  }catch(e){ window.prompt("Copiá tu carrera:", txt); }
+}
+
 function renderFin(){
   const s = S;
   $("panelTitle").textContent = "Legado";
   $("panelNote").textContent = s.hist.length+" temporadas";
- 
+
   const t = s.tot, pj = t.pj||1;
   const pico = s.hist.reduce((a,b)=> b.media>a ? b.media : a, 0);
   const oros = s.hist.reduce((a,r)=> a + r.hitos.filter(h=>h.tipo==="oro").length, 0);
- 
+
   let rank, txt;
   if(s.selMayor && pico>=82){ rank="Leyenda"; txt="Te fuiste de la selección mayor con el nombre grabado. En tu barrio le pusieron tu apellido a la cancha."; }
   else if(pico>=78){ rank="Ídolo"; txt="Jugaste al máximo nivel del básquetbol uruguayo y ganaste todo lo que se podía ganar de este lado del charco."; }
   else if(pico>=70){ rank="Profesional"; txt="Viviste del básquetbol muchos años. No todos los que empiezan en el Metro pueden decir lo mismo."; }
   else if(pico>=60){ rank="De la casa"; txt="Te quedaste en el Ascenso y te hiciste querer. En el club todavía te invitan a los asados."; }
   else { rank="Un pibe más"; txt="El Metro se come a muchos. Jugaste, la peleaste, y en algún momento se terminó."; }
- 
+
   $("panelBody").innerHTML =
     '<div class="legacy"><div class="legacy-rank">'+rank+'</div>'+
     '<p class="legacy-txt">'+txt+'</p></div>'+
@@ -1076,11 +1327,22 @@ function renderFin(){
       '<b>'+t.pj+'</b> partidos &nbsp; <b>'+dec(t.pts/pj)+'</b> PTS &nbsp; <b>'+dec(t.reb/pj)+'</b> REB &nbsp; <b>'+dec(t.ast/pj)+'</b> AST<br>'+
       'Media más alta: <b>'+Math.round(pico)+'</b> &nbsp;·&nbsp; hitos mayores: <b>'+oros+'</b> &nbsp;·&nbsp; ahorro final: <b>U$S '+num(Math.round(s.plata))+'</b>'+
     '</div>'+
-    '<button class="btn btn--led" id="btnOtra" style="margin-top:14px">Empezar otra carrera</button>';
- 
+    '<button class="btn btn--led" id="btnShare" style="margin-top:14px">Compartir mi carrera</button>'+
+    '<button class="btn btn--ghost" id="btnOtra" style="width:100%;margin-top:8px">Empezar otra carrera</button>';
+
+  const ligaFin = s.hist.some(h=>h.liga==="Exterior") ? "Llegué a jugar afuera."
+                : s.hist.some(h=>h.liga==="LUB") ? "Llegué a la LUB." : "Me quedé en el Metro.";
+  const texto =
+    "EL METRO · "+rank.toUpperCase()+"\n"+
+    s.nombre+", "+s.pos+" · "+s.hist.length+" temporadas, del "+s.hist[0].temp+" al "+s.hist[s.hist.length-1].temp+"\n"+
+    dec(t.pts/pj)+" pts · "+dec(t.reb/pj)+" reb · "+dec(t.ast/pj)+" ast en "+t.pj+" partidos\n"+
+    "Media más alta: "+Math.round(pico)+". "+ligaFin+"\n\n"+
+    "A ver cuánto durás vos: https://elidolo.pages.dev";
+
+  $("btnShare").addEventListener("click", ev=> compartir(texto, ev.currentTarget));
   $("btnOtra").addEventListener("click", reiniciar);
 }
- 
+
 function renderTop(){
   $("topActions").innerHTML = S
     ? '<button class="btn btn--ghost" id="btnNueva">Nueva carrera</button>' : "";
@@ -1089,53 +1351,40 @@ function renderTop(){
     if(confirm("Se borra la carrera actual. ¿Seguro?")) reiniciar();
   });
 }
- 
+
 function render(){
   renderTop();
-  
-  if(!S){ 
-    $("setup").classList.remove("hidden"); 
-    $("game").classList.add("hidden"); 
-    return; 
-  }
-  
-  $("setup").classList.add("hidden"); 
-  
-  // Lógica de centrado del Informe
-  if(vista === "informe" || vista === "fin"){
-    $("game").className = "grid informe-mode";
-  } else {
-    $("game").className = "grid";
-  }
-  
+  if(!S){ $("setup").classList.remove("hidden"); $("game").classList.add("hidden"); return; }
+  $("setup").classList.add("hidden"); $("game").classList.remove("hidden");
   if(S.retirado && vista!=="informe") vista="fin";
-  
-  renderFicha(); 
-  renderPanel();
+  renderFicha(); renderPanel();
 }
- 
+
 function reiniciar(){ borrar(); S=null; vista="plan"; ultimoInforme=null; render(); montarSetup(); }
- 
+
 /* ============================================================
    ARRANQUE
    ============================================================ */
 function montarSetup(){
   $("inPos").innerHTML = Object.keys(POSICIONES).map(p=>'<option>'+p+'</option>').join("");
   $("inPos").value = "Escolta";
+  const pintarPos = ()=>{ $("posHelp").textContent = POSICIONES[$("inPos").value].txt; };
+  $("inPos").onchange = pintarPos;
+  pintarPos();
   $("inClub").innerHTML = CLUBES_ASCENSO.slice().sort((a,b)=>a.localeCompare(b,"es"))
     .map(c=>'<option>'+c+'</option>').join("");
 }
- 
+
 $("btnEmpezar").addEventListener("click", ()=>{
   const nombre = ($("inNombre").value || "").trim() || "El Pibe";
   const dorsal = cl(parseInt($("inDorsal").value,10)||7, 0, 99);
   S = nuevaPartida(nombre, $("inPos").value, $("inClub").value, dorsal);
   vista = "plan"; guardar(); render();
 });
- 
+
 montarSetup();
 const guardado = cargar();
-if(guardado && guardado.attr){ S = guardado; vista = S.retirado ? "fin" : "plan"; }
+if(guardado){ S = guardado; vista = S.retirado ? "fin" : "plan"; }
 render();
 </script>
 </body>
