@@ -7,9 +7,7 @@
 <meta name="description" content="Empezás con 16 años en un cuadro del Metro. Decidí en qué gastás la plata, aguantá el cuerpo y llegá lo más lejos que puedas.">
 <meta name="theme-color" content="#0B0D0C">
  
-<!-- Previsualización al compartir el link (WhatsApp, Telegram, X, Discord).
-     IMPORTANTE: las URL tienen que ser absolutas. Si cambiás de dominio,
-     cambiá estas cuatro líneas o el preview queda roto. -->
+<!-- Previsualización al compartir el link -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="El Metro">
 <meta property="og:title" content="El Metro — carrera de un basquetbolista uruguayo">
@@ -103,11 +101,15 @@ button:focus-visible,input:focus-visible,select:focus-visible,label:focus-visibl
 .btn--ok{border-color:var(--ok);color:var(--ok)}
 .btn--ok:hover{background:rgba(89,211,140,.12)}
  
-/* ---------- grilla de cards ---------- */
+/* ---------- LAYOUTS (Grilla vs Informe) ---------- */
 .grid{display:grid;grid-template-columns:1.32fr 1fr;gap:18px;align-items:start}
 @media(max-width:900px){.grid{grid-template-columns:1fr}}
+
+/* Este modificador centra el reporte y oculta la ficha temporalmente */
+.grid.informe-mode { display: flex; flex-direction: column; max-width: 680px; margin: 0 auto; }
+.grid.informe-mode #cardFicha { display: none; }
  
-.card{background:var(--panel);border:1px solid var(--line)}
+.card{background:var(--panel);border:1px solid var(--line);width:100%}
 .card-head{
   display:flex;align-items:center;justify-content:space-between;gap:12px;
   padding:10px 16px;border-bottom:1px solid var(--line);background:var(--panel2);
@@ -249,25 +251,31 @@ button:focus-visible,input:focus-visible,select:focus-visible,label:focus-visibl
  
 .warn{font-size:11.5px;color:var(--bad);margin-top:9px;line-height:1.4}
  
-/* informe de temporada */
+/* informe de temporada (ESTILOS NUEVOS DESTACADOS) */
 .report-line{
-  font-size:13.5px;line-height:1.5;padding:9px 0 9px 12px;
-  border-left:2px solid var(--line2);border-bottom:1px solid var(--line);
+  font-size:14.5px;line-height:1.5;
+  padding:14px 16px;
+  background:var(--panel2);
+  border-left:4px solid var(--line2);
+  border-bottom:1px solid var(--line);
+  margin-bottom:8px;
+  border-radius:0 4px 4px 0;
 }
-.report-line:last-of-type{border-bottom:0}
-.report-line.bueno{border-left-color:var(--ok)}
-.report-line.malo{border-left-color:var(--bad)}
-.report-line.oro{border-left-color:var(--led)}
-.report-line.neutro{border-left-color:var(--info)}
+.report-line:last-of-type{border-bottom:0; margin-bottom:16px;}
+.report-line.bueno{border-left-color:var(--ok); background:rgba(89,211,140,.06);}
+.report-line.malo{border-left-color:var(--bad); background:rgba(232,86,60,.06);}
+.report-line.oro{border-left-color:var(--led); background:rgba(255,138,31,.08); font-weight:500;}
+.report-line.neutro{border-left-color:var(--info); background:rgba(111,168,214,.06);}
+
 .statline{
-  font-family:var(--f-mono);font-size:13px;background:var(--panel2);
-  border:1px solid var(--line);padding:11px 12px;margin-bottom:14px;line-height:1.7;
+  font-family:var(--f-mono);font-size:14px;background:var(--panel2);
+  border:1px solid var(--line);padding:14px 16px;margin-bottom:18px;line-height:1.7;
 }
 .statline b{color:var(--led);font-weight:700}
-.decision{border:1px solid var(--led);padding:13px;margin-top:14px;background:rgba(255,138,31,.05)}
-.decision p{font-size:13.5px;line-height:1.5;margin-bottom:11px}
-.decision-btns{display:flex;gap:8px}
-.decision-btns .btn{flex:1;font-size:13px;padding:9px 8px}
+.decision{border:1px solid var(--led);padding:18px;margin-top:22px;background:rgba(255,138,31,.05)}
+.decision p{font-size:14.5px;line-height:1.5;margin-bottom:14px}
+.decision-btns{display:flex;gap:12px}
+.decision-btns .btn{flex:1;font-size:14px;padding:12px 10px}
  
 /* ---------- setup ---------- */
 .setup{max-width:560px;margin:0 auto}
@@ -333,8 +341,8 @@ footer{margin-top:26px;font-family:var(--f-mono);font-size:10px;letter-spacing:.
  
   <!-- ============ JUEGO ============ -->
   <section id="game" class="grid hidden">
-    <!-- CARD 1 -->
-    <div class="card">
+    <!-- CARD 1 (Ficha Izquierda) -->
+    <div class="card" id="cardFicha">
       <div class="card-head">
         <span class="card-title">Ficha del jugador</span>
         <span class="card-note" id="fichaTemp">Temporada 2026</span>
@@ -365,8 +373,8 @@ footer{margin-top:26px;font-family:var(--f-mono);font-size:10px;letter-spacing:.
       </div>
     </div>
  
-    <!-- CARD 2 -->
-    <div class="card">
+    <!-- CARD 2 (Panel Derecho / Informe Central) -->
+    <div class="card" id="cardPanel">
       <div class="card-head">
         <span class="card-title" id="panelTitle">Pretemporada</span>
         <span class="card-note" id="panelNote"></span>
@@ -508,14 +516,11 @@ function costoAnual(s){
   return SERVICIOS.reduce((t,x)=> t + (s.svc[x.id] ? costoSvc(s,x) : 0), 0);
 }
 function gastosVida(s){
-  // alquiler, auto, la familia, la vida. Sube con lo que ganás.
   return Math.round(s.sueldo * (s.edad<=19 ? 0.30 : 0.50) / 50) * 50;
 }
  
-/* ---------- EVENTOS ---------- */
+/* ---------- EVENTOS (AHORA CONTEXTUALES) ---------- */
 const EV = [
- 
-/* --- lesiones y cuerpo --- */
 {id:"esguince", tipo:"malo",
  peso:s=> 15*riesgoLesion(s),
  run:s=>{ const p=ri(2,7); s._perdidos+=p; s.fatiga+=5;
@@ -540,23 +545,35 @@ const EV = [
 {id:"peso", tipo:"malo",
  peso:s=> (!s.svc.chef && s.edad>=24) ? 11 : 0,
  run:s=>{ s.attr.fisico-=ri(2,5); s.attr.penetracion-=ri(1,3);
-   return "Volviste de las vacaciones cuatro kilos arriba. El técnico te lo hizo notar delante de todos."; }},
+   const lugar = s.liga === "Exterior" ? "Ibiza" : pick(["Rocha", "Punta del Este", "Florianópolis"]);
+   return `Volviste de las vacaciones en ${lugar} cuatro kilos arriba. El preparador físico te mandó a correr aparte.`; }},
  
 {id:"kine_salva", tipo:"bueno",
  peso:s=> s.svc.kine ? 10 : 0,
  run:s=>{ s.fatiga-=14;
    return "Molestia en el aductor detectada a tiempo por el kinesiólogo. Dos semanas de carga controlada y listo."; }},
  
-/* --- vida fuera de la cancha --- */
 {id:"joda_1", tipo:"malo",
  peso:s=> (s.foco==="joda"?26:7) * (s.edad<=25?1.3:0.8) * (s.svc.psico?0.7:1),
  run:s=>{ s.fatiga+=13; s.moral+=6; s._crec-=1.2;
-   return "Te quedaste hasta las seis en una fiesta en Malvín. Al otro día había doble turno."; }},
+   if(s.liga === "Exterior"){
+     const fam = pick(["un streamer conocido", "un músico local", "un futbolista de primera", "una celebridad de allá"]);
+     return `Te invitaron a una fiesta VIP con ${fam} y te quedaste hasta las seis de la mañana. Al otro día había doble turno.`;
+   } else {
+     const loc = pick(["Malvín", "Pocitos", "el Prado", "el Parque Rodó"]);
+     return `Te quedaste hasta las seis en una joda por ${loc} con unos amigos. Al otro día había doble turno y no dabas más.`;
+   }
+ }},
  
 {id:"joda_2", tipo:"malo",
  peso:s=> (s.foco==="joda"?15:3) * (s.rep>25?1.4:1),
  run:s=>{ s.rep-=6; s.moral-=10; s._perdidos+=ri(1,3);
-   return "Salió una foto tuya a las cuatro de la mañana la noche previa a un clásico. El club te suspendió."; }},
+   if(s.liga === "Exterior"){
+     return "Salió un video tuyo tambaleando a la salida de una discoteca exclusiva la noche previa a un partido clave. El club te suspendió.";
+   } else {
+     return "Salió una foto tuya a las cuatro de la mañana comprando choripanes en un carrito antes de un clásico. El club te suspendió y la hinchada te puteó.";
+   }
+ }},
  
 {id:"bajon", tipo:"malo",
  peso:s=> (s.moral<45 ? 16 : 5) * (s.svc.psico?0.45:1),
@@ -583,7 +600,6 @@ const EV = [
  run:s=>{ s.liceo=true; s.attr.iq+=2; s.moral+=5;
    return "Terminaste el liceo de noche mientras jugabas. No todos llegan."; }},
  
-/* --- club y cuerpo técnico --- */
 {id:"tecnico_nuevo", tipo:"neutro",
  peso:s=> 13,
  run:s=>{ if(chance(0.5)){ s.moral+=9; return "Cambio de técnico y te cayó bien parado: te dio la llave del equipo."; }
@@ -609,7 +625,6 @@ const EV = [
  run:s=>{ s.attr.iq+=ri(2,4); s.attr.defensa+=ri(1,3);
    return "Clínica con un jugador de la selección mayor. Te llevaste tres cosas que no sabías que existían."; }},
  
-/* --- rendimiento y premios --- */
 {id:"anotador", tipo:"bueno",
  peso:s=> s._ppg>=15 ? 18 : 0,
  run:s=>{ s.rep+=7; s.moral+=8;
@@ -618,24 +633,24 @@ const EV = [
 {id:"quinteto", tipo:"oro",
  peso:s=> media(s) >= NIVEL_LIGA[s.liga]+11 ? 15 : 0,
  run:s=>{ s.rep+=11; s.moral+=12;
-   return "Quinteto ideal de la temporada. Te lo entregaron en el Palacio Peñarol."; }},
+   return "Quinteto ideal de la temporada. Te lo entregaron en una gala a fin de año."; }},
  
 {id:"triple_dobles", tipo:"oro",
  peso:s=> (s._apg>=6 && s._rpg>=6 && s._ppg>=12) ? 10 : 0,
  run:s=>{ s.rep+=9;
-   return "Metiste dos triples-dobles en la misma temporada. En el Metro eso no pasa todos los años."; }},
+   return "Metiste dos triples-dobles en la misma temporada. Una locura estadística."; }},
  
 {id:"nota", tipo:"bueno",
  peso:s=> s.rep>15 ? 12 : 4,
  run:s=>{ s.rep+=5;
-   return "Te hicieron una nota en Basquet Caliente. Tu vieja imprimió la página."; }},
+   const medio = s.liga === "Exterior" ? "un portal deportivo de allá" : "Básquet Caliente";
+   return `Te hicieron una nota en ${medio}. Tu vieja imprimió la página.`; }},
  
 {id:"sponsor", tipo:"bueno",
  peso:s=> s.rep>22 ? 12 : 0,
  run:s=>{ const g = Math.round((600 + s.rep*90)/100)*100; s.plata += g;
    return "Una casa de deportes te firmó como imagen: U$S "+num(g)+" y championes gratis."; }},
  
-/* --- selección --- */
 {id:"sub19", tipo:"oro",
  peso:s=> (s.edad<=19 && media(s)>=58 && !s.sel19) ? 22 : 0,
  run:s=>{ s.sel19=true; s.rep+=13; s.moral+=14; s.attr.iq+=2;
@@ -665,7 +680,6 @@ function jugarTemporada(){
   s.plata += s.sueldo;
   s.plata -= costo + vida;
   if(s.plata < 0){
-    // no te dio el bolsillo: se cae todo el entorno
     for(const x of SERVICIOS) s.svc[x.id] = false;
     s.plata = 0; s.moral -= 8;
     add("No te dio la plata para pagar el entorno. Diste de baja a todos y volviste a entrenar solo.","malo");
@@ -692,7 +706,6 @@ function jugarTemporada(){
   const antes = media(s);
   for(const k of ATTR_KEYS){
     let d = base + bono[k] + rnd(-1.1,1.1);
-    // cuanto más cerca del techo, menos rinde cada hora de gimnasio
     if(d > 0) d *= cl(1 - Math.pow(s.attr[k]/s.techo, 2.2), 0, 1);
     s.attr[k] = cl(s.attr[k] + d, 5, 99);
   }
@@ -716,7 +729,6 @@ function jugarTemporada(){
   const usados = new Set();
   const reciente = new Set(s.ultEv || []);
   if(!s.evN) s.evN = {};
-  // cada vez que algo ya te pasó, es menos probable que vuelva a pasar igual
   const pesoDe = e => e.peso(s) * (reciente.has(e.id) ? 0.18 : 1) / (1 + (s.evN[e.id]||0)*0.95);
   for(let i=0;i<cantidad;i++){
     const pool = EV.filter(e => !usados.has(e.id) && e.peso(s) > 0);
@@ -730,7 +742,7 @@ function jugarTemporada(){
   }
   s.ultEv = [...usados, ...(s.ultEv||[])].slice(0,8);
  
-  /* 5. partidos jugados y campaña del club */
+  /* 5. partidos jugados y campaña */
   const totalPJ = PARTIDOS[s.liga];
   const pj = cl(totalPJ - s._perdidos, 0, totalPJ);
   const aporte = (m - NIVEL_LIGA[s.liga]) * 0.28 * (min/30) * (pj/totalPJ);
@@ -760,7 +772,7 @@ function jugarTemporada(){
   s.fatiga = cl(s.fatiga + (min/36)*16 + (s.edad>=31?7:0) - (s.svc.kine?11:0) - (s.svc.chef?5:0) - 6, 0, 100);
   s.moral  = cl(s.moral + (winrate>0.55?5:-4) + (ppg>12?4:0), 0, 100);
  
-  /* 8. registro de la temporada */
+  /* 8. registro */
   const despues = media(s);
   const reg = {
     temp: s.temporada, edad: s.edad, club: s.club, liga: s.liga,
@@ -771,7 +783,7 @@ function jugarTemporada(){
   s.tot.pj += pj;
   s.tot.pts += ppg*pj; s.tot.reb += rpg*pj; s.tot.ast += apg*pj;
  
-  /* 9. ofertas para la temporada siguiente */
+  /* 9. ofertas */
   let oferta = null;
   const umbralM = s.svc.rep ? 4 : 0;
   if(s.liga==="LUB" && despues>=80 && s.rep>=55-umbralM*2 && chance(s.svc.rep?0.5:0.26)){
@@ -785,13 +797,10 @@ function jugarTemporada(){
     oferta = {liga:s.liga, club: pick(lista.filter(c=>c!==s.club)), lateral:true};
   }
  
-  /* 10. avanzar el calendario */
+  /* 10. avanzar */
   s.temporada++; s.edad++;
-  if(cambioLiga){
-    s.liga = cambioLiga;   // subís o bajás con tu club, no te movés vos
-  } else if(forzarCambio){
-    s.club = pick(CLUBES_ASCENSO.filter(c=>c!==s.club));
-  }
+  if(cambioLiga){ s.liga = cambioLiga; }
+  else if(forzarCambio){ s.club = pick(CLUBES_ASCENSO.filter(c=>c!==s.club)); }
   s.sueldo = sueldoDe(s);
  
   /* 11. retiro */
@@ -815,14 +824,13 @@ function nuevaPartida(nombre, pos, club, dorsal){
   const p = POSICIONES[pos];
   const attr = {};
   for(const k of ATTR_KEYS){
-    // los atributos fuertes de la posición arrancan apenas mejor
     attr[k] = cl(ri(33,46) + p.pesos[k]*0.30 + rnd(-3,3), 18, 60);
   }
   return {
     nombre, pos, club, dorsal,
     altura: ri(p.alt[0], p.alt[1]),
     edad:16, temporada:2026, liga:"Ascenso",
-    techo: ri(58,94),           // potencial oculto: nadie sabe hasta dónde da
+    techo: ri(58,94),
     attr, fatiga:12, moral:70, rep:6, ultEv:[], evN:{},
     plata:800, sueldo:1200,
     svc:{}, foco:"cancha",
@@ -865,7 +873,6 @@ function renderFicha(){
   else if(d<=-0.5){ dEl.textContent="▼ "+dec(Math.abs(d)); dEl.className="delta down"; }
   else { dEl.textContent="= 0,0"; dEl.className="delta flat"; }
  
-  // atributos
   $("uiAttrs").innerHTML = ATTR_KEYS.map(k=>{
     const v = Math.round(s.attr[k]);
     const cls = v>=75 ? "hi" : v>=45 ? "" : "lo";
@@ -874,7 +881,6 @@ function renderFicha(){
            '<span class="bar"><i class="'+cls+'" style="width:'+v+'%"></i></span></div>';
   }).join("");
  
-  // condicion
   const conds = [
     {l:"Fatiga",     v:Math.round(s.fatiga), inv:true},
     {l:"Moral",      v:Math.round(s.moral),  inv:false},
@@ -886,7 +892,6 @@ function renderFicha(){
     '<div class="gauge"><i style="width:'+c.v+'%;background:'+colorGauge(c.v,c.inv)+'"></i></div></div>'
   ).join("");
  
-  // totales
   const t = s.tot;
   const pj = t.pj || 1;
   $("uiTotals").innerHTML =
@@ -896,7 +901,6 @@ function renderFicha(){
  
   $("uiPjTot").textContent = s.hist.length ? s.hist.length+" temporada"+(s.hist.length>1?"s":"") : "";
  
-  // planilla
   if(!s.hist.length){
     $("uiPlanilla").innerHTML = '<div class="empty">Todavía no jugaste nada. La planilla se llena sola.</div>';
   } else {
@@ -996,7 +1000,7 @@ function renderPanel(){
 function renderInforme(){
   const s = S;
   const {reg, oferta, retiro, costo} = ultimoInforme;
-  $("panelTitle").textContent = "Temporada "+reg.temp;
+  $("panelTitle").textContent = "Resumen de Temporada "+reg.temp;
   $("panelNote").textContent = reg.club;
  
   const dTxt = reg.delta>=0.5 ? '<span class="up">▲ '+dec(reg.delta)+'</span>'
@@ -1006,7 +1010,7 @@ function renderInforme(){
   let h = '<div class="statline">'+
     reg.club+' · '+reg.record+' · '+reg.puesto+'º de '+(reg.liga==="Ascenso"?14:12)+'<br>'+
     '<b>'+reg.pj+'</b> PJ &nbsp; <b>'+dec(reg.ppg)+'</b> PTS &nbsp; <b>'+dec(reg.rpg)+'</b> REB &nbsp; <b>'+dec(reg.apg)+'</b> AST<br>'+
-    'Media '+Math.round(reg.media)+' '+dTxt+' &nbsp;·&nbsp; entorno −U$S '+num(costo)+' &nbsp;·&nbsp; vida −U$S '+num(ultimoInforme.vida)+
+    'Media actualizada: <b>'+Math.round(reg.media)+'</b> '+dTxt+' &nbsp;·&nbsp; entorno −U$S '+num(costo)+' &nbsp;·&nbsp; vida −U$S '+num(ultimoInforme.vida)+
     '</div>';
  
   h += reg.hitos.map(x=> '<div class="report-line '+x.tipo+'">'+x.txt+'</div>').join("");
@@ -1021,12 +1025,12 @@ function renderInforme(){
       ? "Se te terminó el contrato afuera. "+oferta.club+" te quiere de vuelta en Uruguay."
       : oferta.liga==="LUB"
         ? "Llamó "+oferta.club+". Te ofrecen contrato para jugar la Liga Uruguaya."
-        : "Llamó "+oferta.club+". Te quieren llevar afuera.";
+        : "Llamó "+oferta.club+". Te quieren llevar a jugar al Exterior.";
     h += '<div class="decision"><p>'+txt+'</p><div class="decision-btns">'+
-         '<button class="btn btn--ok" id="btnAcepto">Firmo</button>'+
-         '<button class="btn btn--ghost" id="btnRechazo">Me quedo</button></div></div>';
+         '<button class="btn btn--ok" id="btnAcepto">Fichar por '+oferta.club+'</button>'+
+         '<button class="btn btn--ghost" id="btnRechazo">Quedarme en '+s.club+'</button></div></div>';
   } else {
-    h += '<button class="btn btn--led" id="btnSeguir" style="margin-top:14px">Ir a la pretemporada '+s.temporada+'</button>';
+    h += '<button class="btn btn--led" id="btnSeguir" style="margin-top:14px">Ir a la pretemporada '+s.temporada+' y ver atributos</button>';
   }
  
   $("panelBody").innerHTML = h;
@@ -1088,10 +1092,26 @@ function renderTop(){
  
 function render(){
   renderTop();
-  if(!S){ $("setup").classList.remove("hidden"); $("game").classList.add("hidden"); return; }
-  $("setup").classList.add("hidden"); $("game").classList.remove("hidden");
+  
+  if(!S){ 
+    $("setup").classList.remove("hidden"); 
+    $("game").classList.add("hidden"); 
+    return; 
+  }
+  
+  $("setup").classList.add("hidden"); 
+  
+  // Lógica de centrado del Informe
+  if(vista === "informe" || vista === "fin"){
+    $("game").className = "grid informe-mode";
+  } else {
+    $("game").className = "grid";
+  }
+  
   if(S.retirado && vista!=="informe") vista="fin";
-  renderFicha(); renderPanel();
+  
+  renderFicha(); 
+  renderPanel();
 }
  
 function reiniciar(){ borrar(); S=null; vista="plan"; ultimoInforme=null; render(); montarSetup(); }
@@ -1120,4 +1140,3 @@ render();
 </script>
 </body>
 </html>
- 
